@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* Design tokens — dark "neural" theme with electric blue / cyan glows.
+   Every color, font and glow in the site comes from here. */
+@theme {
+  --color-bg: #05070f;
+  --color-surface: #0a1020;
+  --color-surface-2: #101a33;
+  --color-line: rgb(120 160 255 / 0.14);
+  --color-line-strong: rgb(120 160 255 / 0.28);
+
+  --color-ink: #e8eeff;
+  --color-muted: #8d9bc0;
+  --color-faint: #5b678a;
+
+  --color-primary: #2f7bff;
+  --color-primary-soft: #6ea2ff;
+  --color-accent: #22d3ee;
+  --color-violet: #7c5cff;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --shadow-glow: 0 0 0 1px rgb(47 123 255 / 0.35), 0 8px 40px -8px rgb(47 123 255 / 0.55);
+  --shadow-glow-cyan: 0 0 0 1px rgb(34 211 238 / 0.35), 0 8px 40px -8px rgb(34 211 238 / 0.5);
+}
+
+@layer base {
+  html {
+    background: var(--color-bg);
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: rgb(47 123 255 / 0.45);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Gradient text used for key words in headings */
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-primary-soft) 0%, var(--color-accent) 60%, #a5f3fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Glassy card on the dark background */
+  .card {
+    background: linear-gradient(180deg, rgb(16 26 51 / 0.7), rgb(10 16 32 / 0.7));
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  }
+  .card-hover:hover {
+    border-color: var(--color-line-strong);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: rgb(47 123 255 / 0.06);
+    color: var(--color-ink);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: transform 0.2s, box-shadow 0.3s, background 0.3s, border-color 0.3s;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background: linear-gradient(100deg, var(--color-primary), #1d5fe0);
+    color: #fff;
+    box-shadow: var(--shadow-glow);
+  }
+  .btn-ghost {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-ink);
+    background: rgb(255 255 255 / 0.02);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow-cyan);
+  }
+
+  /* Faint blueprint grid used behind sections */
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
