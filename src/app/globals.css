@@ -125,6 +125,54 @@
     box-shadow: var(--shadow-glow-cyan);
   }
 
+  /* Cursor-following glow inside cards (position set by <Spotlight>) */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(47 123 255 / 0.14), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  /* Infinite skills ribbon */
+  .marquee-track {
+    animation: marquee 45s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Experience timeline dots light up as you reach them */
+  .timeline-dot {
+    transition: background 0.4s, box-shadow 0.4s, border-color 0.4s;
+  }
+  .timeline-dot.is-active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgb(34 211 238 / 0.15), 0 0 16px var(--color-accent);
+  }
+
+  /* Skill-network connectors draw themselves in (pathLength = 1) */
+  .connector {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.3s;
+  }
+  .connector.is-drawn {
+    stroke-dashoffset: 0;
+  }
+
   /* Faint blueprint grid used behind sections */
   .bg-grid {
     background-image:
@@ -135,7 +183,17 @@
   }
 }
 
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {

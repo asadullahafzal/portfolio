@@ -1,5 +1,6 @@
 import { profile } from "@/data/profile";
 import Reveal from "@/components/motion/Reveal";
+import SplitHeading from "@/components/motion/SplitHeading";
 import { DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/ui/Icons";
 
 // Phase 6 adds the contact form (→ n8n webhook → email) next to these links.
@@ -20,9 +21,9 @@ export default function Contact() {
           <p className="eyebrow mb-4">
             <span className="text-faint">06 /</span> Contact
           </p>
-          <h2 className="mx-auto max-w-3xl font-display text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+          <SplitHeading className="mx-auto max-w-3xl font-display text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
             Have a product to build, rank <span className="text-gradient">or automate?</span>
-          </h2>
+          </SplitHeading>
           <p className="mx-auto mt-5 max-w-xl text-lg text-muted">
             I&apos;m open to freelance projects and full-time roles. Tell me what you&apos;re working on.
           </p>

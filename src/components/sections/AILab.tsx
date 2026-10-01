@@ -22,8 +22,9 @@ export default function AILab() {
         <Reveal stagger className="grid gap-4 md:grid-cols-3">
           {labProjects.map((p) => (
             <article key={p.slug} className="card card-hover flex flex-col p-6 sm:p-7">
-              <div className="bg-grid relative mb-6 grid h-36 place-items-center overflow-hidden rounded-xl border border-line">
-                <span className="chip !border-accent/40 !bg-accent/10 font-mono !text-xs text-accent">Live demo · soon</span>
+              <div className="relative mb-6 grid h-36 place-items-center overflow-hidden rounded-xl border border-line">
+                <div aria-hidden className="bg-grid absolute inset-0" />
+                <span className="relative chip !border-accent/40 !bg-accent/10 font-mono !text-xs text-accent">Live demo · soon</span>
               </div>
               <h3 className="font-display text-xl font-semibold text-ink">{p.name}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.tagline}</p>

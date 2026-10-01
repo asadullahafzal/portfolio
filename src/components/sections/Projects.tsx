@@ -1,7 +1,9 @@
 import { featuredProjects, moreBuilds } from "@/data/profile";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/motion/Reveal";
+import Spotlight from "@/components/motion/Spotlight";
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/ui/Icons";
+import ProjectPreview from "./ProjectPreview";
 
 const hostname = (url: string) => new URL(url).hostname;
 
@@ -17,66 +19,61 @@ export default function Projects() {
               Live products, <span className="text-gradient">real users.</span>
             </>
           }
-          intro="These aren't class assignments. They're in production right now, serving publishers, creators and readers worldwide."
+          intro="These aren't class assignments. They're in production, serving publishers, creators and readers worldwide."
         />
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {featuredProjects.map((p, i) => (
-            <Reveal as="article" key={p.slug} className="card card-hover relative overflow-hidden p-6 sm:p-10">
-              <div aria-hidden className="absolute -right-24 -top-24 size-72 rounded-full bg-primary/10 blur-3xl" />
-              <div className="relative grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-                <div>
-                  <p className="font-mono text-xs text-faint">
-                    {String(i + 1).padStart(2, "0")} · {p.role}
-                  </p>
-                  <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{p.name}</h3>
-                  <p className="mt-2 text-accent">{p.tagline}</p>
-                  <p className="mt-5 leading-relaxed text-muted">{p.description}</p>
-                  <ul className="mt-6 space-y-2.5 text-[0.95rem] text-muted">
-                    {p.highlights.map((h) => (
-                      <li key={h} className="flex gap-3">
-                        <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="mt-7 flex flex-wrap gap-2">
-                    {p.tech.map((t) => (
-                      <li key={t} className="chip">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <Reveal key={p.slug}>
+              <Spotlight as="article" className="card overflow-hidden p-6 sm:p-10">
+                <div aria-hidden className="absolute -right-24 -top-24 -z-10 size-72 rounded-full bg-primary/10 blur-3xl" />
+                <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+                  {/* Alternate the preview left/right on desktop */}
+                  <div className={i % 2 ? "lg:order-2" : ""}>
+                    <ProjectPreview project={p} />
+                    {p.metrics && (
+                      <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+                        {p.metrics.map((m) => (
+                          <div key={m.label} className="bg-surface px-4 py-3.5">
+                            <dt className="sr-only">{m.label}</dt>
+                            <dd className="font-display text-xl font-semibold text-ink">{m.value}</dd>
+                            <dd className="mt-0.5 text-xs text-muted">{m.label}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                  </div>
 
-                <div className="flex flex-col justify-between gap-6">
-                  {p.metrics ? (
-                    <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
-                      {p.metrics.map((m) => (
-                        <div key={m.label} className="bg-surface p-5">
-                          <dt className="sr-only">{m.label}</dt>
-                          <dd className="font-display text-2xl font-semibold text-ink sm:text-3xl">{m.value}</dd>
-                          <dd className="mt-1 text-sm text-muted">{m.label}</dd>
-                        </div>
+                  <div>
+                    <p className="font-mono text-xs text-faint">
+                      {String(i + 1).padStart(2, "0")} · {p.role}
+                    </p>
+                    <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{p.name}</h3>
+                    <p className="mt-2 text-accent">{p.tagline}</p>
+                    <p className="mt-5 leading-relaxed text-muted">{p.description}</p>
+                    <ul className="mt-6 space-y-2.5 text-[0.95rem] text-muted">
+                      {p.highlights.map((h) => (
+                        <li key={h} className="flex gap-3">
+                          <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                          {h}
+                        </li>
                       ))}
-                    </dl>
-                  ) : (
-                    <div
-                      aria-hidden
-                      className="bg-grid relative hidden min-h-48 flex-1 rounded-2xl border border-line lg:block"
-                    >
-                      <span className="absolute inset-0 grid place-items-center font-display text-6xl font-bold text-white/5">
-                        {p.name.split(" ").map((w) => w[0]).join("")}
-                      </span>
-                    </div>
-                  )}
-                  {p.url && (
-                    <a href={p.url} target="_blank" rel="noopener" className="btn btn-ghost w-fit">
-                      Visit {hostname(p.url)} <ArrowUpRightIcon width={16} height={16} />
-                    </a>
-                  )}
+                    </ul>
+                    <ul className="mt-7 flex flex-wrap gap-2">
+                      {p.tech.map((t) => (
+                        <li key={t} className="chip">
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                    {p.url && (
+                      <a href={p.url} target="_blank" rel="noopener" className="btn btn-ghost mt-8">
+                        Visit {hostname(p.url)} <ArrowUpRightIcon width={16} height={16} />
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </Spotlight>
             </Reveal>
           ))}
         </div>

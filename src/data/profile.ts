@@ -137,6 +137,10 @@ export type Project = {
   highlights: string[];
   tech: string[];
   metrics?: { value: string; label: string }[];
+  /** Screenshot of the live site; projects without one get a designed preview */
+  image?: string;
+  /** Which designed preview to show when there's no screenshot */
+  preview?: "queries" | "generator";
 };
 
 export const featuredProjects: Project[] = [
@@ -162,6 +166,7 @@ export const featuredProjects: Project[] = [
       { value: "60+", label: "countries" },
       { value: "~40ms", label: "per auction" },
     ],
+    image: "/images/projects/cpc-point.png",
   },
   {
     slug: "the-dollar-tech",
@@ -178,6 +183,7 @@ export const featuredProjects: Project[] = [
       "Own site architecture, SEO structure and technical performance",
     ],
     tech: ["Next.js", "React", "Technical SEO", "Core Web Vitals"],
+    image: "/images/projects/the-dollar-tech.png",
   },
   {
     slug: "query-finder",
@@ -194,6 +200,7 @@ export const featuredProjects: Project[] = [
       "Part of the free Dollar Tech tools suite",
     ],
     tech: ["Web Scraping", "Data Extraction", "Next.js", "Keyword Research"],
+    preview: "queries",
   },
   {
     slug: "puns-now",
@@ -209,6 +216,7 @@ export const featuredProjects: Project[] = [
       "Content strategy across food, animal, holiday, sports and seasonal categories",
     ],
     tech: ["WordPress", "SEO", "AdSense", "Content Strategy"],
+    preview: "generator",
   },
 ];
 
