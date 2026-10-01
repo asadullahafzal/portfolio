@@ -72,8 +72,8 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     id: "data",
-    label: "Data",
-    skills: ["PostgreSQL", "MongoDB", "MySQL"],
+    label: "Data & Scraping",
+    skills: ["PostgreSQL", "MongoDB", "MySQL", "Web Scraping", "Data Extraction"],
   },
   {
     id: "languages",
@@ -178,6 +178,22 @@ export const featuredProjects: Project[] = [
       "Own site architecture, SEO structure and technical performance",
     ],
     tech: ["Next.js", "React", "Technical SEO", "Core Web Vitals"],
+  },
+  {
+    slug: "query-finder",
+    name: "Query Finder",
+    tagline: "Forum scraper that uncovers the questions real people are asking",
+    url: "https://queryfinder.thedollartech.tech",
+    role: "Built",
+    description:
+      "A data-scraping tool that collects real user queries from forums like Reddit, so bloggers and SEOs can find low-competition topics people are actually searching for.",
+    highlights: [
+      "Scrapes questions and discussions from forums like Reddit",
+      "Surfaces low-competition, long-tail keyword ideas from real conversations",
+      "Turns raw forum data into ready-to-write content ideas",
+      "Part of the free Dollar Tech tools suite",
+    ],
+    tech: ["Web Scraping", "Data Extraction", "Next.js", "Keyword Research"],
   },
   {
     slug: "puns-now",

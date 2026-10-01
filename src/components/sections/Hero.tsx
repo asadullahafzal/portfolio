@@ -1,21 +1,72 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { profile, stats } from "@/data/profile";
 import Counter from "@/components/motion/Counter";
 import { ArrowUpRightIcon } from "@/components/ui/Icons";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+// The 3D scene is client-only and loaded separately, so the text paints first.
+const HeroScene = dynamic(() => import("@/components/three/HeroScene"), { ssr: false });
+
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+}
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const progress = useRef(0);
+  const [showScene, setShowScene] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
 
-  // Intro sequence on first load
+  // Mount the 3D network once the browser is idle (the CSS glow stays as the fallback)
+  useEffect(() => {
+    if (!supportsWebGL()) return;
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(() => setShowScene(true), { timeout: 1500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = setTimeout(() => setShowScene(true), 300);
+    return () => clearTimeout(id);
+  }, []);
+
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      // Scrolling out of the hero: camera flies into the network while the text drifts away
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => {
+          progress.current = self.progress;
+        },
+      });
+      gsap.to("[data-hero-content]", {
+        yPercent: -10,
+        autoAlpha: 0,
+        ease: "none",
+        scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom 15%", scrub: true },
+      });
+      gsap.to("[data-hero-scene]", {
+        autoAlpha: 0,
+        ease: "power1.in",
+        scrollTrigger: { trigger: ref.current, start: "45% top", end: "bottom top", scrub: true },
+      });
+
+      // Intro sequence on first load
       gsap
         .timeline({ defaults: { ease: "power3.out", duration: 1 } })
         .from("[data-intro='eyebrow']", { y: 16, autoAlpha: 0, duration: 0.7 })
@@ -30,17 +81,25 @@ export default function Hero() {
 
   return (
     <section ref={ref} id="top" className="relative isolate flex min-h-svh flex-col overflow-hidden pt-16">
-      {/* Background — Phase 2 mounts the 3D neural network into #hero-scene */}
+      {/* Background: CSS glows (also the no-WebGL fallback) + the 3D neural network */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="bg-grid absolute inset-0 opacity-60" />
         <div className="absolute -top-40 left-1/2 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-primary/25 blur-[140px]" />
         <div className="absolute -right-32 top-1/3 h-[28rem] w-[28rem] rounded-full bg-accent/15 blur-[120px]" />
         <div className="absolute -left-40 bottom-0 h-[24rem] w-[24rem] rounded-full bg-violet/15 blur-[120px]" />
-        <div id="hero-scene" className="absolute inset-0" />
+        {/* Pinned to the viewport so scrolling moves the camera through the network, not the network off screen */}
+        <div data-hero-scene className="fixed inset-0">
+          <div className={`absolute inset-0 transition-opacity duration-[1600ms] ${sceneReady ? "opacity-100" : "opacity-0"}`}>
+            {showScene && <HeroScene eventSource={ref} progress={progress} onReady={() => setSceneReady(true)} />}
+          </div>
+        </div>
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-4 py-16 sm:px-6">
+      <div
+        data-hero-content
+        className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-4 py-16 sm:px-6"
+      >
         <p data-intro="eyebrow" className="chip mb-8 w-fit">
           <span className="relative flex size-2">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />

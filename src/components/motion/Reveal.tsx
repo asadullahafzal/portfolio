@@ -19,7 +19,9 @@ type RevealProps = {
 // Fades content up as it scrolls into view. Content is fully visible in the
 // server HTML (good for SEO); the animation only runs once JS has loaded.
 export default function Reveal({ children, as: Tag = "div", className, stagger = false, delay = 0 }: RevealProps) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  // Any block element works; typed as div so ref/className/children check cleanly
+  const Component = Tag as "div";
 
   useGSAP(
     () => {
@@ -41,8 +43,8 @@ export default function Reveal({ children, as: Tag = "div", className, stagger =
   );
 
   return (
-    <Tag ref={ref} className={className}>
+    <Component ref={ref} className={className}>
       {children}
-    </Tag>
+    </Component>
   );
 }

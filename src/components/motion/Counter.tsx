@@ -18,17 +18,18 @@ export default function Counter({ value, suffix = "" }: { value: number; suffix?
     const el = ref.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // The real number stays on screen until the count-up actually starts, so if the
+    // trigger never fires (e.g. a page loaded in a background tab) it never shows "0".
     const state = { n: 0 };
     gsap.to(state, {
       n: value,
       duration: 2,
       ease: "power2.out",
-      scrollTrigger: { trigger: el, start: "top 90%", once: true },
+      scrollTrigger: { trigger: el, start: "top bottom", once: true },
       onUpdate: () => {
         el.textContent = format(state.n) + suffix;
       },
     });
-    el.textContent = format(0) + suffix;
   });
 
   return (
