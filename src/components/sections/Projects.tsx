@@ -19,7 +19,7 @@ export default function Projects() {
               Live products, <span className="text-gradient">real users.</span>
             </>
           }
-          intro="These aren't class assignments. They're in production, serving publishers, creators and readers worldwide."
+          intro="These aren't class assignments. They're live products built for publishers, creators and readers worldwide."
         />
 
         <div className="space-y-8">
@@ -66,7 +66,7 @@ export default function Projects() {
                         </li>
                       ))}
                     </ul>
-                    {p.url && (
+                    {p.url && !p.offline && (
                       <a href={p.url} target="_blank" rel="noopener" className="btn btn-ghost mt-8">
                         Visit {hostname(p.url)} <ArrowUpRightIcon width={16} height={16} />
                       </a>

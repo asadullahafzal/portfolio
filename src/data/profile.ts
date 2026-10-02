@@ -7,7 +7,7 @@ export const site = {
   name: "Asadullah Afzal",
   title: "Asadullah Afzal — Full-Stack Engineer, SEO Expert & AI Educator",
   description:
-    "Full-stack engineer and SEO expert building live products that ship, rank and scale — from a real-time ad network serving 50M+ impressions a month to AI education for 200+ learners.",
+    "Full-stack engineer and SEO expert building live products that ship, rank and scale — from a real-time ad network serving 40M+ verified impressions a month to AI education for 200+ learners.",
 };
 
 export const profile = {
@@ -16,7 +16,7 @@ export const profile = {
   roles: ["Full-Stack Engineer", "SEO Expert", "AI Educator"],
   tagline: "I build products that ship, rank, and scale.",
   summary:
-    "Computer Science undergraduate at FAST-NUCES and Software Engineer + SEO Expert at Dollar Tech. I ship and operate live products across ad-tech, SEO tooling and content — from a real-time bidding ad network serving 50M+ impressions a month to a suite of free web tools for creators. I've also trained 200+ students and business owners to put AI to work.",
+    "Computer Science undergraduate at FAST-NUCES and Software Engineer + SEO Expert at Dollar Tech. I ship and operate live products across ad-tech, SEO tooling and content — from a real-time bidding ad network serving 40M+ verified impressions a month to a suite of free web tools for creators. I've also trained 200+ students and business owners to put AI to work.",
   email: "asadullahafzal840@gmail.com",
   availability: "Open to freelance projects and full-time opportunities",
   photo: "/images/asadullah-dollar-tech.jpg",
@@ -30,8 +30,8 @@ export const profile = {
 export type Stat = { value: number; suffix: string; label: string };
 
 export const stats: Stat[] = [
-  { value: 50, suffix: "M+", label: "Ad impressions served monthly" },
-  { value: 1200, suffix: "+", label: "Publishers on CPC Point" },
+  { value: 40, suffix: "M+", label: "Verified ad impressions monthly" },
+  { value: 970, suffix: "+", label: "Publishers on CPC Point" },
   { value: 60, suffix: "+", label: "Countries reached" },
   { value: 200, suffix: "+", label: "People trained in AI" },
 ];
@@ -139,6 +139,8 @@ export type Project = {
   metrics?: { value: string; label: string }[];
   /** Screenshot of the live site; projects without one get a designed preview */
   image?: string;
+  /** Site temporarily down: hides the "Visit" link but keeps the project */
+  offline?: boolean;
   /** Which designed preview to show when there's no screenshot */
   preview?: "queries" | "generator";
 };
@@ -161,9 +163,9 @@ export const featuredProjects: Project[] = [
     ],
     tech: ["Full-Stack", "Real-Time Bidding", "Dashboards", "Payments"],
     metrics: [
-      { value: "50M+", label: "impressions / month" },
-      { value: "1,200+", label: "publishers" },
-      { value: "60+", label: "countries" },
+      { value: "40M+", label: "impressions / month" },
+      { value: "970+", label: "publishers" },
+      { value: "$1.0M+", label: "paid to publishers" },
       { value: "~40ms", label: "per auction" },
     ],
     image: "/images/projects/cpc-point.png",
@@ -207,6 +209,8 @@ export const featuredProjects: Project[] = [
     name: "Puns Now",
     tagline: "Puns-niche content site with in-house generators",
     url: "https://punsnow.com",
+    // Domain isn't resolving right now; remove this line once the site is back up
+    offline: true,
     role: "Built & manage",
     description:
       "An SEO-first content site monetized with AdSense, with interactive generators that drive organic traffic.",

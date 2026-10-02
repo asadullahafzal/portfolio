@@ -37,7 +37,7 @@ export default function About() {
               <p>
                 I&apos;m <span className="text-ink">{profile.name}</span>, a full-stack engineer and SEO expert at{" "}
                 <span className="text-ink">Dollar Tech</span>. I build and run live, revenue-generating products, from{" "}
-                <span className="text-ink">CPC Point</span>, a real-time bidding ad network serving 50M+ impressions a
+                <span className="text-ink">CPC Point</span>, a real-time bidding ad network serving 40M+ impressions a
                 month, to <span className="text-ink">The Dollar Tech</span>, a suite of free tools for creators.
               </p>
               <p>
