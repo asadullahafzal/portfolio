@@ -36,9 +36,10 @@ function createSim(graph: NeuralGraph, pulseCount: number) {
 }
 
 export default function NeuralNetwork({ progress, reducedMotion }: Props) {
-  // Phone layout is decided from the canvas's real size, so it adapts on resize
-  // (and isn't fooled by a 0-width window in a background tab).
-  const compact = useThree((s) => s.size.width > 0 && s.size.width < 768);
+  // "Compact" = the network sits behind the text (phones and portrait tablets), so it's
+  // dimmer, sparser and unlabeled. Decided from the canvas's real size so it adapts on
+  // resize (and isn't fooled by a 0-width window in a background tab).
+  const compact = useThree((s) => s.size.width > 0 && (s.size.width < 768 || s.size.width / s.size.height < 1.1));
   const graph = useMemo(() => buildNeuralGraph({ density: compact ? 0.6 : 1 }), [compact]);
   const gl = useThree((s) => s.gl);
   const [hovered, setHovered] = useState<number | null>(null);
@@ -88,12 +89,12 @@ export default function NeuralNetwork({ progress, reducedMotion }: Props) {
       nodes,
       lines,
       pulses,
-      nodeMaterial: createGlowMaterial({ size: 320, opacity: compact ? 0.7 : 1, pixelRatio: pr }),
-      pulseMaterial: createGlowMaterial({ size: 320, opacity: 1, pixelRatio: pr }),
+      nodeMaterial: createGlowMaterial({ size: 320, opacity: compact ? 0.45 : 1, pixelRatio: pr }),
+      pulseMaterial: createGlowMaterial({ size: 320, opacity: compact ? 0.6 : 1, pixelRatio: pr }),
       lineMaterial: new THREE.LineBasicMaterial({
         vertexColors: true,
         transparent: true,
-        opacity: compact ? 0.5 : 0.8,
+        opacity: compact ? 0.3 : 0.8,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       }),
@@ -204,7 +205,7 @@ export default function NeuralNetwork({ progress, reducedMotion }: Props) {
     const wide = width / height > 1.1;
     const scale = wide ? THREE.MathUtils.clamp((width * 0.5) / 12, 0.55, 1) : THREE.MathUtils.clamp(width / 11.5, 0.4, 1);
     const x = wide ? width / 2 - 6.2 * scale - width * 0.03 : 0;
-    const y = wide ? 0 : height * 0.14;
+    const y = wide ? 0 : height * 0.04;
     g.scale.setScalar(scale);
     g.position.set(x, y, 0);
 
