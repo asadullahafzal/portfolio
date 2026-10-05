@@ -27,6 +27,18 @@ bash /home/portfolio/portfolio/deploy/deploy.sh
 It pulls, builds, swaps in the new version and restarts. If the new version doesn't
 respond, it automatically rolls back to the previous one.
 
+## Contact form settings
+
+The contact form forwards messages to n8n. Its settings live in `/etc/portfolio.env`
+(readable by root only, never committed):
+
+```
+N8N_CONTACT_WEBHOOK_URL=https://YOUR-N8N/webhook/portfolio-contact
+N8N_CONTACT_SECRET=<random string, also set in the n8n Webhook node>
+```
+
+After editing it: `systemctl restart portfolio`. Setup steps: [deploy/n8n/README.md](deploy/n8n/README.md).
+
 ## Useful commands (on the VPS)
 
 | What | Command |
