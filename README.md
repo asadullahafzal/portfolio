@@ -12,11 +12,11 @@ Personal portfolio of **Asadullah Afzal**: Full-Stack Engineer, SEO Expert and A
 - **Case-study pages** for each featured project, statically generated
 - **SEO-first:** Person / CreativeWork / Breadcrumb structured data, sitemap, Open Graph, fast Core Web Vitals
 - **Accessible:** keyboard friendly, reduced-motion support, semantic landmarks
-- **Self-hosted** on a VPS with Docker, Nginx and Let's Encrypt
+- **Self-hosted** on a VPS: systemd service behind Caddy with automatic HTTPS, one-command deploys with automatic rollback
 
 ## Tech stack
 
-Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · Three.js · React Three Fiber · GSAP · Lenis · Docker · Nginx
+Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · Three.js · React Three Fiber · GSAP · Lenis · Caddy · systemd
 
 ## Run locally
 

@@ -1,73 +1,54 @@
-# Deploying asadullahafzal.com to the VPS
+# Deploying asadullahafzal.com
 
-How it runs: **Docker** runs the Next.js site on the VPS (port 3000, not public) →
-**Nginx** serves it on ports 80/443 → **Let's Encrypt** provides free HTTPS.
+The site runs on the VPS (213.199.35.218, Ubuntu 24.04) next to the scraper dashboard:
 
-## 1. Point the domain at the VPS
-
-At your domain registrar's DNS settings, create these records (replace `YOUR_VPS_IP`):
-
-| Type | Name / Host | Value          | TTL  |
-| ---- | ----------- | -------------- | ---- |
-| A    | `@`         | `YOUR_VPS_IP`  | Auto |
-| A    | `www`       | `YOUR_VPS_IP`  | Auto |
-
-Delete any other A/AAAA or "parking" records for `@` and `www`. DNS can take from a few
-minutes to a few hours to update. Check with:
-
-```bash
-nslookup asadullahafzal.com
+```
+Visitor ──HTTPS──▶ Caddy (ports 80/443, automatic certificates)
+                     ├─ scrape.thedollartech.org ─▶ scraper dashboard (127.0.0.1:8700)
+                     └─ asadullahafzal.com       ─▶ portfolio.service (127.0.0.1:3000)
 ```
 
-## 2. Log in to the VPS
+| What | Where |
+| --- | --- |
+| Source code (git clone) | `/home/portfolio/portfolio` |
+| Running release | `/home/portfolio/app` (previous one kept in `app.previous`) |
+| Service | `portfolio.service` (runs as the `portfolio` user) |
+| Web server config | `/etc/caddy/Caddyfile` |
+
+## Updating the site
+
+1. Commit and push your changes to GitHub from your computer.
+2. On the VPS, as root:
 
 ```bash
-ssh root@YOUR_VPS_IP
+bash /home/portfolio/portfolio/deploy/deploy.sh
 ```
 
-## 3. Get the code onto the VPS
-
-```bash
-git clone https://github.com/asadullahafzal/portfolio.git /opt/portfolio
-cd /opt/portfolio
-```
-
-(For a private repo, GitHub will ask you to sign in; use a personal access token as the password.)
-
-## 4. Install everything and start the site
-
-```bash
-sudo bash deploy/setup-vps.sh
-```
-
-This installs Docker, Nginx and Certbot, sets up the Nginx site, then builds and starts the site.
-The first build takes a few minutes. When it finishes, `http://asadullahafzal.com` works
-(once DNS from step 1 has updated).
-
-## 5. Turn on HTTPS
-
-Once `http://asadullahafzal.com` loads, run:
-
-```bash
-sudo certbot --nginx -d asadullahafzal.com -d www.asadullahafzal.com --redirect --agree-tos -m asadullahafzal840@gmail.com
-```
-
-Certbot gets the certificate, switches the site to HTTPS and renews it automatically.
-
-## Updating the site later
-
-Push changes to GitHub from your computer, then on the VPS:
-
-```bash
-cd /opt/portfolio && bash deploy/deploy.sh
-```
+It pulls, builds, swaps in the new version and restarts. If the new version doesn't
+respond, it automatically rolls back to the previous one.
 
 ## Useful commands (on the VPS)
 
-| What                    | Command                                  |
-| ----------------------- | ---------------------------------------- |
-| See if the site is up   | `docker compose ps`                      |
-| View site logs          | `docker compose logs -f web`             |
-| Restart the site        | `docker compose restart web`             |
-| Test the Nginx config   | `sudo nginx -t`                          |
-| Check HTTPS renewal     | `sudo certbot renew --dry-run`           |
+| What | Command |
+| --- | --- |
+| Is the site running? | `systemctl status portfolio` |
+| Live logs | `journalctl -u portfolio -f` |
+| Restart the site | `systemctl restart portfolio` |
+| Check the Caddy config | `caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile` |
+| Apply Caddy changes | `systemctl reload caddy` |
+
+## First-time setup (already done, kept for reference)
+
+```bash
+useradd --create-home --shell /usr/sbin/nologin portfolio
+sudo -u portfolio git clone https://github.com/asadullahafzal/portfolio.git /home/portfolio/portfolio
+cp /home/portfolio/portfolio/deploy/portfolio.service /etc/systemd/system/
+systemctl daemon-reload && systemctl enable portfolio
+bash /home/portfolio/portfolio/deploy/deploy.sh
+cat /home/portfolio/portfolio/deploy/caddy/asadullahafzal.com.caddy >> /etc/caddy/Caddyfile
+caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile && systemctl reload caddy
+```
+
+DNS: `A` records for `@` and `www` point to the VPS IP.
+
+A `Dockerfile` and `docker-compose.yml` are also included if you ever want to run the site in Docker instead.

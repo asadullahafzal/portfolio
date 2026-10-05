@@ -1,0 +1,28 @@
+# systemd unit for asadullahafzal.com
+# Install: cp deploy/portfolio.service /etc/systemd/system/ && systemctl enable --now portfolio
+[Unit]
+Description=asadullahafzal.com portfolio (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=portfolio
+Group=portfolio
+# deploy.sh assembles each release here (standalone server + static files)
+WorkingDirectory=/home/portfolio/app
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=PORT=3000
+# Only reachable from the server itself; Caddy is the public entry point
+Environment=HOSTNAME=127.0.0.1
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target
