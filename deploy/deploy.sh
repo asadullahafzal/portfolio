@@ -43,7 +43,7 @@ main() {
 
   echo "==> Checking the site responds"
   for _ in $(seq 1 30); do
-    if curl -fsS -o /dev/null http://127.0.0.1:3000/; then
+    if curl -fsS -o /dev/null http://127.0.0.1:3000/ 2>/dev/null; then
       echo "Live: $(as_app "git log -1 --format='%h %s'")"
       exit 0
     fi
