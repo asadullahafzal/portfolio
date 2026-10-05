@@ -1,10 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navLinks, profile } from "@/data/profile";
 import { CloseIcon, DownloadIcon, MenuIcon } from "@/components/ui/Icons";
 
+type SectionLinkProps = {
+  hash: string;
+  onHome: boolean;
+  className?: string;
+  onClick?: () => void;
+  children: ReactNode;
+  "aria-current"?: "location";
+  "aria-label"?: string;
+};
+
+// On the home page section links are plain anchors (smooth-scrolled by Lenis);
+// on other pages they navigate back home to that section.
+function SectionLink({ hash, onHome, children, ...rest }: SectionLinkProps) {
+  return onHome ? (
+    <a href={hash} {...rest}>
+      {children}
+    </a>
+  ) : (
+    <Link href={hash === "#top" ? "/" : `/${hash}`} {...rest}>
+      {children}
+    </Link>
+  );
+}
+
 export default function Navbar() {
+  const onHome = usePathname() === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -37,7 +64,7 @@ export default function Navbar() {
     );
     sections.forEach((s) => io.observe(s));
     return () => io.disconnect();
-  }, []);
+  }, [onHome]);
 
   return (
     <header
@@ -46,27 +73,28 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
-        <a href="#top" className="group flex items-center gap-2.5" aria-label={`${profile.name} — home`}>
+        <SectionLink hash="#top" onHome={onHome} className="group flex items-center gap-2.5" aria-label={`${profile.name} — home`}>
           <span className="grid size-9 place-items-center rounded-xl border border-line-strong bg-surface-2 font-display text-sm font-bold text-ink shadow-glow transition group-hover:border-accent">
             AA
           </span>
           <span className="hidden font-display text-[0.95rem] font-semibold tracking-tight sm:block">
             Asadullah<span className="text-accent">.</span>
           </span>
-        </a>
+        </SectionLink>
 
         <ul className="hidden items-center gap-1 md:flex">
           {navLinks.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
-                aria-current={active === l.href ? "location" : undefined}
+              <SectionLink
+                hash={l.href}
+                onHome={onHome}
+                aria-current={onHome && active === l.href ? "location" : undefined}
                 className={`rounded-full px-3.5 py-2 text-sm transition hover:bg-white/5 hover:text-ink ${
-                  active === l.href ? "bg-white/[0.06] text-ink" : "text-muted"
+                  onHome && active === l.href ? "bg-white/[0.06] text-ink" : "text-muted"
                 }`}
               >
                 {l.label}
-              </a>
+              </SectionLink>
             </li>
           ))}
         </ul>
@@ -99,13 +127,14 @@ export default function Navbar() {
           <ul className="flex flex-col">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
+                <SectionLink
+                  hash={l.href}
+                  onHome={onHome}
                   onClick={() => setOpen(false)}
                   className="block border-b border-line py-3.5 font-display text-lg text-ink"
                 >
                   {l.label}
-                </a>
+                </SectionLink>
               </li>
             ))}
           </ul>

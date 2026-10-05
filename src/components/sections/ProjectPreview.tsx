@@ -47,7 +47,7 @@ function QueriesIllustration() {
     { q: "is adsense still worth it for small blogs?", src: "Reddit", score: "Low KD" },
   ];
   return (
-    <div aria-label="Illustration of Query Finder collecting forum questions" role="img" className="relative aspect-[16/10] p-5 sm:p-7">
+    <div aria-label="Illustration of Query Finder collecting forum questions" role="img" className="relative flex aspect-[16/10] flex-col justify-center p-5 sm:p-7">
       <GridBackdrop />
       <div className="relative flex items-center gap-2 rounded-xl border border-line-strong bg-bg/80 px-4 py-3">
         <span className="size-2 animate-pulse rounded-full bg-accent" />
@@ -69,7 +69,7 @@ function QueriesIllustration() {
 // Puns Now: a generator turning a topic into puns
 function GeneratorIllustration() {
   return (
-    <div aria-label="Illustration of the Puns Now generator" role="img" className="relative aspect-[16/10] p-5 sm:p-7">
+    <div aria-label="Illustration of the Puns Now generator" role="img" className="relative flex aspect-[16/10] flex-col justify-center p-5 sm:p-7">
       <GridBackdrop />
       <p className="relative font-mono text-[11px] uppercase tracking-widest text-accent">Pun Generator</p>
       <div className="relative mt-3 flex gap-2">

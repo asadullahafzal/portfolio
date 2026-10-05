@@ -2,10 +2,10 @@
 
 import { useRef, type ElementType, type ReactNode } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { playWhenVisible } from "./playWhenVisible";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(useGSAP);
 
 type RevealProps = {
   children: ReactNode;
@@ -29,15 +29,16 @@ export default function Reveal({ children, as: Tag = "div", className, stagger =
       if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       const targets = stagger ? Array.from(el.children) : el;
-      gsap.from(targets, {
+      const tween = gsap.from(targets, {
         y: 32,
         autoAlpha: 0,
         duration: 0.9,
         ease: "power3.out",
         delay,
         stagger: stagger ? 0.08 : 0,
-        scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        paused: true,
       });
+      return playWhenVisible(el, tween);
     },
     { scope: ref },
   );

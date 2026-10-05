@@ -2,13 +2,12 @@
 
 import { useRef, type ReactNode } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
+gsap.registerPlugin(SplitText, useGSAP);
 
-type Props = { children: ReactNode; className?: string; as?: "h2" | "h3" };
+type Props = { children: ReactNode; className?: string; as?: "h1" | "h2" | "h3" };
 
 // Heading whose lines rise up from behind a mask as it scrolls into view.
 // SplitText re-splits on resize and font load; the reveal only ever plays once.
@@ -20,23 +19,33 @@ export default function SplitHeading({ children, className, as: Tag = "h2" }: Pr
       const el = ref.current;
       if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      let played = false;
+      // Once revealed, later re-splits (resize, font load) just show the lines as they are.
+      let revealed = false;
+      let tween: gsap.core.Tween | null = null;
       const split = SplitText.create(el, {
         type: "lines",
         mask: "lines",
         autoSplit: true,
         onSplit: (self) => {
-          if (played) return;
-          return gsap.from(self.lines, {
-            yPercent: 110,
-            duration: 1.1,
-            ease: "power4.out",
-            stagger: 0.1,
-            scrollTrigger: { trigger: el, start: "top 88%", once: true, onEnter: () => (played = true) },
-          });
+          if (revealed) return;
+          tween = gsap.from(self.lines, { yPercent: 110, duration: 1.1, ease: "power4.out", stagger: 0.1, paused: true });
+          return tween;
         },
       });
-      return () => split.revert();
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          revealed = true;
+          tween?.play();
+          io.disconnect();
+        },
+        { rootMargin: "0px 0px -10% 0px" },
+      );
+      io.observe(el);
+      return () => {
+        io.disconnect();
+        split.revert();
+      };
     },
     { scope: ref },
   );

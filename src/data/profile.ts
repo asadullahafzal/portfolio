@@ -143,6 +143,12 @@ export type Project = {
   offline?: boolean;
   /** Which designed preview to show when there's no screenshot */
   preview?: "queries" | "generator";
+  /** Long-form content for the /projects/[slug] case-study page */
+  caseStudy?: {
+    challenge: string;
+    approach: string[];
+    outcome?: string;
+  };
 };
 
 export const featuredProjects: Project[] = [
@@ -169,6 +175,20 @@ export const featuredProjects: Project[] = [
       { value: "~40ms", label: "per auction" },
     ],
     image: "/images/projects/cpc-point.png",
+    caseStudy: {
+      challenge:
+        "Publishers want an ad network that pays fairly and shows exactly what they earn. Advertisers want real audiences and to pay only for genuine clicks. Serving both sides means picking and serving the right ad for every impression in real time, without slowing down the publisher's site.",
+      approach: [
+        "A real-time bidding auction that picks the winning ad for each impression in around 40ms, so publisher pages stay fast.",
+        "A one-line embed tag, so publishers can start earning without any technical setup.",
+        "Separate publisher and advertiser dashboards with real-time reporting.",
+        "A transparent revenue ledger that makes every earning traceable.",
+        "Multi-method payouts (bank transfer, Wise, Payoneer and USDT) for publishers around the world.",
+        "Invalid-traffic handling to keep inventory brand-safe and clicks genuine.",
+      ],
+      outcome:
+        "CPC Point now serves 970+ publishers across 60+ countries, delivering 40M+ verified impressions a month and $1.0M+ paid out to publishers.",
+    },
   },
   {
     slug: "the-dollar-tech",
@@ -186,6 +206,16 @@ export const featuredProjects: Project[] = [
     ],
     tech: ["Next.js", "React", "Technical SEO", "Core Web Vitals"],
     image: "/images/projects/the-dollar-tech.png",
+    caseStudy: {
+      challenge:
+        "Bloggers and creators juggle a dozen different tools for everyday jobs like keyword research, meta tags and revenue estimates, and most of them are paid or locked behind a sign-up.",
+      approach: [
+        "Built a hub of fast, free browser tools that work instantly with no sign-up.",
+        "Designed the site architecture and SEO structure so each tool can rank for its own search intent.",
+        "Tuned technical performance and Core Web Vitals so tools load and respond instantly.",
+        "Added a companion blog on SEO and content growth to bring in organic traffic.",
+      ],
+    },
   },
   {
     slug: "query-finder",
@@ -203,6 +233,16 @@ export const featuredProjects: Project[] = [
     ],
     tech: ["Web Scraping", "Data Extraction", "Next.js", "Keyword Research"],
     preview: "queries",
+    caseStudy: {
+      challenge:
+        "Keyword tools show search volumes, but they miss the real questions people ask in their own words. Those questions are often the easiest topics to rank for, and they're scattered across forums like Reddit.",
+      approach: [
+        "Built a scraper that collects real questions and discussions from forums like Reddit.",
+        "Turned the raw forum data into long-tail, low-competition keyword ideas.",
+        "Presented the results as ready-to-write content ideas for bloggers and SEOs.",
+        "Shipped it as part of the Dollar Tech tools suite.",
+      ],
+    },
   },
   {
     slug: "puns-now",
@@ -221,6 +261,16 @@ export const featuredProjects: Project[] = [
     ],
     tech: ["WordPress", "SEO", "AdSense", "Content Strategy"],
     preview: "generator",
+    caseStudy: {
+      challenge:
+        "Content sites in a crowded niche struggle to rank and keep visitors with articles alone.",
+      approach: [
+        "Built interactive generators (puns, name puns, team names, elf names and Valentine's cards) that give visitors a reason to stay and come back.",
+        "Set up an SEO-first WordPress architecture around clear topic categories.",
+        "Planned content across food, animal, holiday, sports and seasonal pun categories to capture organic traffic.",
+        "Monetized with Google AdSense.",
+      ],
+    },
   },
 ];
 

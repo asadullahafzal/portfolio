@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { featuredProjects, moreBuilds } from "@/data/profile";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/motion/Reveal";
@@ -66,11 +67,16 @@ export default function Projects() {
                         </li>
                       ))}
                     </ul>
-                    {p.url && !p.offline && (
-                      <a href={p.url} target="_blank" rel="noopener" className="btn btn-ghost mt-8">
-                        Visit {hostname(p.url)} <ArrowUpRightIcon width={16} height={16} />
-                      </a>
-                    )}
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      <Link href={`/projects/${p.slug}`} className="btn btn-primary">
+                        Read case study <span aria-hidden>→</span>
+                      </Link>
+                      {p.url && !p.offline && (
+                        <a href={p.url} target="_blank" rel="noopener" className="btn btn-ghost">
+                          Visit {hostname(p.url)} <ArrowUpRightIcon width={16} height={16} />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Spotlight>

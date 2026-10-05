@@ -1,7 +1,15 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/data/profile";
+import { featuredProjects, site } from "@/data/profile";
 
-// Project case-study pages get added here in Phase 4.
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: site.url, lastModified: new Date(), changeFrequency: "monthly", priority: 1 }];
+  const now = new Date();
+  return [
+    { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
+    ...featuredProjects.map((p) => ({
+      url: `${site.url}/projects/${p.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+  ];
 }
