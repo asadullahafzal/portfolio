@@ -7,7 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { profile, stats } from "@/data/profile";
 import Counter from "@/components/motion/Counter";
-import { ArrowUpRightIcon } from "@/components/ui/Icons";
+import { ArrowUpRightIcon, ChatIcon } from "@/components/ui/Icons";
+import { openChat } from "@/lib/chat";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -135,6 +136,9 @@ export default function Hero() {
           <a href="#projects" className="btn btn-primary">
             View my work <ArrowUpRightIcon width={16} height={16} />
           </a>
+          <button type="button" onClick={() => openChat()} className="btn btn-ghost">
+            <ChatIcon width={16} height={16} /> Ask my AI
+          </button>
           <a href="#contact" className="btn btn-ghost">
             Get in touch
           </a>

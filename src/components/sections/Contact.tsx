@@ -1,6 +1,7 @@
 import { profile } from "@/data/profile";
 import Reveal from "@/components/motion/Reveal";
 import SplitHeading from "@/components/motion/SplitHeading";
+import AskAIButton from "@/components/chat/AskAIButton";
 import { DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/ui/Icons";
 
 // Phase 6 adds the contact form (→ n8n webhook → email) next to these links.
@@ -35,6 +36,7 @@ export default function Contact() {
             <a href={profile.cv} download className="btn btn-ghost">
               <DownloadIcon width={16} height={16} /> Download CV
             </a>
+            <AskAIButton question="Is Asadullah available for hire?" />
           </div>
 
           <ul className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm">
