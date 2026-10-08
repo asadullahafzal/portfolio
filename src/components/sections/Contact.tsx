@@ -23,7 +23,7 @@ export default function Contact() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
             <div>
               <p className="eyebrow mb-4">
-                <span className="text-faint">06 /</span> Contact
+                <span className="text-faint">07 /</span> Contact
               </p>
               <SplitHeading className="font-display text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
                 Have a product to build, rank <span className="text-gradient">or automate?</span>

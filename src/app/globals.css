@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
+@plugin "@tailwindcss/typography";
 
 /* Design tokens — dark "neural" theme with electric blue / cyan glows.
    Every color, font and glow in the site comes from here. */
@@ -199,6 +200,83 @@
   to {
     transform: translateX(-50%);
   }
+}
+
+/* Blog articles: Tailwind Typography tuned to the dark neural theme.
+   Deliberately NOT inside a @layer: the typography plugin lives in the utilities
+   layer, which would otherwise override these colours. */
+.article {
+  --tw-prose-body: var(--color-muted);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-lead: var(--color-muted);
+  --tw-prose-links: var(--color-primary-soft);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: var(--color-accent);
+  --tw-prose-bullets: var(--color-primary);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: var(--color-faint);
+  --tw-prose-code: #a5f3fc;
+  --tw-prose-pre-code: #e6edf3;
+  --tw-prose-pre-bg: transparent;
+  --tw-prose-th-borders: var(--color-line-strong);
+  --tw-prose-td-borders: var(--color-line);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+.article :where(h2, h3) {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  scroll-margin-top: 6rem;
+}
+.article :where(h2) {
+  margin-top: 2.6em;
+}
+.article .heading-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+.article .heading-anchor:hover::after {
+  content: " #";
+  color: var(--color-accent);
+}
+.article a:not(.heading-anchor) {
+  text-underline-offset: 3px;
+  text-decoration-color: rgb(110 162 255 / 0.4);
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.article a:not(.heading-anchor):hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+/* Inline code */
+.article :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border-radius: 0.375rem;
+  background: rgb(47 123 255 / 0.12);
+  border: 1px solid var(--color-line);
+  font-weight: 500;
+  font-size: 0.875em;
+}
+.article :not(pre) > code::before,
+.article :not(pre) > code::after {
+  content: none;
+}
+/* Code blocks (rehype-pretty-code + Shiki) */
+.article figure[data-rehype-pretty-code-figure] {
+  margin: 1.75em 0;
+}
+.article pre {
+  border: 1px solid var(--color-line);
+  border-radius: 0.875rem;
+  background: #0b1222;
+  padding: 1.1em 1.25em;
+  font-size: 0.85em;
+  line-height: 1.7;
+}
+.article pre code {
+  font-family: var(--font-mono);
 }
 
 @media (prefers-reduced-motion: reduce) {

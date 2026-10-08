@@ -219,6 +219,16 @@ export const intents: Intent[] = [
     },
   },
   {
+    id: "blog",
+    keywords: ["blog", "blogs", "article", "articles", "post", "posts", "writing", "writes", "write", "read"],
+    phrases: ["case study", "write about"],
+    reply: () => ({
+      text: `${NAME} writes about how real products get built: the 3D neural network on this site, debugging an AI logic agent, self-hosting Next.js, and more. Each post covers the bugs, trade-offs and numbers behind the work.`,
+      links: [{ label: "Read the blog", href: "/blog" }],
+      suggestions: [`What has ${NAME} built?`, "Tell me about the AI teaching"],
+    }),
+  },
+  {
     id: "site",
     keywords: ["site", "website", "portfolio", "threejs", "three", "3d", "animation", "animations", "gsap", "neural"],
     phrases: ["this site", "this website", "this portfolio", "how was this", "how is this", "built this", "made this"],

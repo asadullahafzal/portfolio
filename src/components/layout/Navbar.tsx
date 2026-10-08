@@ -17,8 +17,15 @@ type SectionLinkProps = {
 };
 
 // On the home page section links are plain anchors (smooth-scrolled by Lenis);
-// on other pages they navigate back home to that section.
+// on other pages they navigate back home to that section. Page links ("/blog") always route.
 function SectionLink({ hash, onHome, children, ...rest }: SectionLinkProps) {
+  if (hash.startsWith("/")) {
+    return (
+      <Link href={hash} {...rest}>
+        {children}
+      </Link>
+    );
+  }
   return onHome ? (
     <a href={hash} {...rest}>
       {children}
@@ -31,8 +38,10 @@ function SectionLink({ hash, onHome, children, ...rest }: SectionLinkProps) {
 }
 
 export default function Navbar() {
-  const onHome = usePathname() === "/";
+  const pathname = usePathname();
+  const onHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
+  const isActive = (href: string) => (href.startsWith("/") ? pathname.startsWith(href) : onHome && active === href);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const progress = useRef<HTMLDivElement>(null);
@@ -52,6 +61,7 @@ export default function Navbar() {
   // Highlight the nav link of the section currently in the middle of the screen
   useEffect(() => {
     const sections = navLinks
+      .filter((l) => l.href.startsWith("#"))
       .map((l) => document.querySelector<HTMLElement>(l.href))
       .filter((s): s is HTMLElement => s !== null);
     const io = new IntersectionObserver(
@@ -93,9 +103,9 @@ export default function Navbar() {
               <SectionLink
                 hash={l.href}
                 onHome={onHome}
-                aria-current={onHome && active === l.href ? "location" : undefined}
+                aria-current={isActive(l.href) ? "location" : undefined}
                 className={`rounded-full px-3.5 py-2 text-sm transition hover:bg-white/5 hover:text-ink ${
-                  onHome && active === l.href ? "bg-white/[0.06] text-ink" : "text-muted"
+                  isActive(l.href) ? "bg-white/[0.06] text-ink" : "text-muted"
                 }`}
               >
                 {l.label}

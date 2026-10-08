@@ -7,6 +7,7 @@ import Projects from "@/components/sections/Projects";
 import AILab from "@/components/sections/AILab";
 import Contact from "@/components/sections/Contact";
 import Marquee from "@/components/sections/Marquee";
+import LatestPosts from "@/components/sections/LatestPosts";
 
 // Tells Google this page is the profile of the Person defined in the root layout
 const profilePageJsonLd = {
@@ -28,6 +29,7 @@ export default function Home() {
       <Experience />
       <Projects />
       <AILab />
+      <LatestPosts />
       <Contact />
     </main>
   );
