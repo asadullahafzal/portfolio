@@ -73,13 +73,18 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
-        <SectionLink hash="#top" onHome={onHome} className="group flex items-center gap-2.5" aria-label={`${profile.name} — home`}>
-          <span className="grid size-9 place-items-center rounded-xl border border-line-strong bg-surface-2 font-display text-sm font-bold text-ink shadow-glow transition group-hover:border-accent">
+        {/* Accessible name comes from the sr-only text, so it always matches what's announced */}
+        <SectionLink hash="#top" onHome={onHome} className="group flex items-center gap-2.5">
+          <span
+            aria-hidden
+            className="grid size-9 place-items-center rounded-xl border border-line-strong bg-surface-2 font-display text-sm font-bold text-ink shadow-glow transition group-hover:border-accent"
+          >
             AA
           </span>
-          <span className="hidden font-display text-[0.95rem] font-semibold tracking-tight sm:block">
+          <span aria-hidden className="hidden font-display text-[0.95rem] font-semibold tracking-tight sm:block">
             Asadullah<span className="text-accent">.</span>
           </span>
+          <span className="sr-only">{profile.name}, home</span>
         </SectionLink>
 
         <ul className="hidden items-center gap-1 md:flex">

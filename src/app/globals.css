@@ -12,7 +12,7 @@
 
   --color-ink: #e8eeff;
   --color-muted: #8d9bc0;
-  --color-faint: #5b678a;
+  --color-faint: #7884a8; /* ≥4.5:1 contrast on every background (WCAG AA) */
 
   --color-primary: #2f7bff;
   --color-primary-soft: #6ea2ff;
