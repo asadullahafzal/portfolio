@@ -29,9 +29,10 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
       url: `/projects/${project.slug}`,
       title,
       description: project.description,
-      images: [{ url: project.image ?? profile.photo, alt: project.name }],
+      // Projects without a screenshot fall back to the site-wide share card
+      images: [{ url: project.image ?? "/opengraph-image", alt: project.name }],
     },
-    twitter: { card: "summary_large_image", title, description: project.description, images: [project.image ?? profile.photo] },
+    twitter: { card: "summary_large_image", title, description: project.description, images: [project.image ?? "/opengraph-image"] },
   };
 }
 

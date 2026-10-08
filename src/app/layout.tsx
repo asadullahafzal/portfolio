@@ -37,13 +37,12 @@ export const metadata: Metadata = {
     description: site.description,
     firstName: "Asadullah",
     lastName: "Afzal",
-    images: [{ url: profile.photo, width: 1086, height: 1448, alt: profile.name }],
+    // Share image: src/app/opengraph-image.tsx
   },
   twitter: {
     card: "summary_large_image",
     title: site.title,
     description: site.description,
-    images: [profile.photo],
   },
   robots: { index: true, follow: true },
 };
@@ -54,10 +53,15 @@ export const viewport: Viewport = {
 };
 
 // Person structured data so Google understands who this site is about.
+// Site-wide structured data: the WebSite and the Person it belongs to.
+// The home page adds a ProfilePage pointing at this Person (see app/page.tsx).
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${site.url}/#person`,
   name: profile.name,
+  givenName: "Asadullah",
+  familyName: "Afzal",
   url: site.url,
   image: `${site.url}${profile.photo}`,
   email: `mailto:${profile.email}`,
@@ -69,13 +73,24 @@ const personJsonLd = {
   sameAs: [profile.socials.linkedin, profile.socials.github],
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  description: site.description,
+  publisher: { "@id": `${site.url}/#person` },
+  inLanguage: "en",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}>
       <body className="min-h-svh">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([websiteJsonLd, personJsonLd]).replace(/</g, "\\u003c") }}
         />
         <a
           href="#main"
