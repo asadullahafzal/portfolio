@@ -45,6 +45,8 @@ export const metadata: Metadata = {
     description: site.description,
   },
   robots: { index: true, follow: true },
+  // Google Search Console ownership (public token; keep it, or verification is lost)
+  verification: { google: "0MMzyBB-rJibS_PcDsgHjsicZpwXqxZnLsewXDIAzAQ" },
 };
 
 export const viewport: Viewport = {
