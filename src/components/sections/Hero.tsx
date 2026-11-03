@@ -34,11 +34,26 @@ export default function Hero() {
 
   useEffect(() => {
     if (!supportsWebGL()) return;
+    const start = () => setShowScene(true);
+
+    // Phones/tablets: starting WebGL during page load blocks a slow CPU for ~1 s. The
+    // poster already shows the desk, so the live scene starts on the first scroll or tap.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      const events = ["pointerdown", "touchstart", "scroll", "keydown"] as const;
+      const onFirst = () => {
+        events.forEach((e) => window.removeEventListener(e, onFirst));
+        start();
+      };
+      events.forEach((e) => window.addEventListener(e, onFirst, { passive: true, once: true }));
+      return () => events.forEach((e) => window.removeEventListener(e, onFirst));
+    }
+
+    // Desktop: start once the browser is idle
     if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(() => setShowScene(true), { timeout: 2000 });
+      const id = window.requestIdleCallback(start, { timeout: 2000 });
       return () => window.cancelIdleCallback(id);
     }
-    const id = setTimeout(() => setShowScene(true), 600);
+    const id = setTimeout(start, 600);
     return () => clearTimeout(id);
   }, []);
 
@@ -97,7 +112,8 @@ export default function Hero() {
           alt=""
           fill
           preload
-          sizes="(min-width: 1280px) 1280px, 100vw"
+          // Already a small, optimised WebP: skip the on-the-fly optimizer (it slowed LCP)
+          unoptimized
           className={`object-contain transition-opacity duration-700 ${sceneReady ? "opacity-0" : "opacity-100"}`}
         />
         <div className={`absolute inset-0 transition-opacity duration-700 ${sceneReady ? "opacity-100" : "opacity-0"}`}>
