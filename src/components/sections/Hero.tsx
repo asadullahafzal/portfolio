@@ -35,27 +35,18 @@ export default function Hero() {
   const [showScene, setShowScene] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
 
+  // Unpacking the 1.4 MB model blocks the main thread for ~0.5 s, so it starts on the first
+  // interaction (mouse move, scroll, tap or key) rather than during page load. The poster
+  // looks the same in the meantime, and visitors move the mouse almost immediately.
   useEffect(() => {
     if (!supportsWebGL() || onSlowConnection()) return;
-    const start = () => setShowScene(true);
-
-    // Phones/tablets: starting WebGL during page load blocks a slow CPU; start on first scroll/tap
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      const events = ["pointerdown", "touchstart", "scroll", "keydown"] as const;
-      const onFirst = () => {
-        events.forEach((e) => window.removeEventListener(e, onFirst));
-        start();
-      };
-      events.forEach((e) => window.addEventListener(e, onFirst, { passive: true, once: true }));
-      return () => events.forEach((e) => window.removeEventListener(e, onFirst));
-    }
-
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(start, { timeout: 2000 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const id = setTimeout(start, 600);
-    return () => clearTimeout(id);
+    const events = ["pointermove", "pointerdown", "touchstart", "scroll", "keydown", "wheel"] as const;
+    const onFirst = () => {
+      events.forEach((e) => window.removeEventListener(e, onFirst));
+      setShowScene(true);
+    };
+    events.forEach((e) => window.addEventListener(e, onFirst, { passive: true, once: true }));
+    return () => events.forEach((e) => window.removeEventListener(e, onFirst));
   }, []);
 
   useGSAP(
