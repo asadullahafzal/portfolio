@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Bot, CircleDashed, Coins, Ghost, OctagonX, Pause, Play, TriangleAlert, Trophy } from "lucide-react";
 import { WumpusEngine } from "@/lib/ai-lab/wumpus";
 
 const SPEEDS = { slow: 900, normal: 550, fast: 250 } as const;
@@ -73,9 +74,9 @@ export default function WumpusDemo() {
               const safe = safeProved.has(k);
               const danger = dangerKnown.has(k);
               const tone = isAgent
-                ? "border-accent bg-accent/15 shadow-[0_0_20px_-4px_var(--color-accent)]"
+                ? "border-accent bg-accent/15"
                 : seen
-                  ? "border-primary/40 bg-primary/10"
+                  ? "border-accent/35 bg-accent/[0.07]"
                   : danger
                     ? "border-rose-400/50 bg-rose-500/10"
                     : safe
@@ -90,8 +91,18 @@ export default function WumpusDemo() {
                   <span className="absolute left-1.5 top-1 font-mono text-[9px] text-faint">
                     {r},{c}
                   </span>
-                  <span className="text-lg leading-none sm:text-2xl" aria-hidden>
-                    {isAgent ? "🤖" : showAll && cell.wumpus ? "👾" : showAll && cell.pit ? "🕳️" : isGold && (showAll || seen) ? "💰" : danger ? "⚠️" : ""}
+                  <span className="leading-none" aria-hidden>
+                    {isAgent ? (
+                      <Bot className="size-5 text-accent sm:size-7" strokeWidth={1.8} />
+                    ) : showAll && cell.wumpus ? (
+                      <Ghost className="size-5 text-rose-300 sm:size-7" strokeWidth={1.8} />
+                    ) : showAll && cell.pit ? (
+                      <CircleDashed className="size-5 text-sky-300 sm:size-7" strokeWidth={1.8} />
+                    ) : isGold && (showAll || seen) ? (
+                      <Coins className="size-5 text-amber-300 sm:size-7" strokeWidth={1.8} />
+                    ) : danger ? (
+                      <TriangleAlert className="size-5 text-rose-300 sm:size-6" strokeWidth={1.8} />
+                    ) : null}
                   </span>
                   {seen && cell.percepts && (
                     <span className="mt-1 flex gap-1 font-mono text-[9px] leading-none sm:text-[10px]">
@@ -110,7 +121,9 @@ export default function WumpusDemo() {
           <li><span className="mr-1 inline-block size-2.5 rounded-sm border border-primary/40 bg-primary/20" />visited</li>
           <li><span className="mr-1 inline-block size-2.5 rounded-sm border border-emerald-400/40 bg-emerald-400/20" />proved safe</li>
           <li><span className="mr-1 inline-block size-2.5 rounded-sm border border-rose-400/50 bg-rose-500/20" />proved dangerous</li>
-          <li>💰 gold (far corner)</li>
+          <li className="flex items-center gap-1"><Coins className="size-3.5 text-amber-300" aria-hidden />gold (far corner)</li>
+          <li className="flex items-center gap-1"><Ghost className="size-3.5 text-rose-300" aria-hidden />Wumpus</li>
+          <li className="flex items-center gap-1"><CircleDashed className="size-3.5 text-sky-300" aria-hidden />pit</li>
         </ul>
       </div>
 
@@ -121,7 +134,8 @@ export default function WumpusDemo() {
             Step
           </button>
           <button type="button" onClick={() => setAuto((a) => !a)} disabled={gameOver} className="btn btn-ghost !px-4 !py-2 text-sm disabled:opacity-40">
-            {auto ? "⏸ Pause" : "▶ Auto-play"}
+            {auto ? <Pause size={15} aria-hidden /> : <Play size={15} aria-hidden />}
+            {auto ? "Pause" : "Auto-play"}
           </button>
           <button type="button" onClick={() => newWorld()} className="btn btn-ghost !px-4 !py-2 text-sm">
             New world
@@ -174,7 +188,11 @@ export default function WumpusDemo() {
               endStatus === "win" ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-200" : "border-amber-400/40 bg-amber-400/10 text-amber-100"
             }`}
           >
-            {endStatus === "win" ? "🎉 " : "🛑 "}
+            {endStatus === "win" ? (
+              <Trophy className="mr-1.5 inline size-4 -translate-y-px" aria-hidden />
+            ) : (
+              <OctagonX className="mr-1.5 inline size-4 -translate-y-px" aria-hidden />
+            )}
             {endMessage}
           </p>
         ) : (

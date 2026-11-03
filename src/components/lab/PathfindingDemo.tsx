@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { Play } from "lucide-react";
 import { randomWalls, search, type Algorithm } from "@/lib/ai-lab/pathfinding";
 
 type Phase = "idle" | "exploring" | "walking" | "arrived" | "blocked";
@@ -93,12 +94,12 @@ export default function PathfindingDemo() {
 
     ctx.fillStyle = color("--color-surface");
     ctx.fillRect(0, 0, width, cell * m.rows);
-    for (let i = 0; i < m.cols * m.rows; i++) fill(i, "rgba(120,160,255,0.06)");
-    for (let k = 0; k < m.shownExplored; k++) fill(m.explored[k], "rgba(47,123,255,0.28)");
-    for (let k = 0; k < m.path.length; k++) fill(m.path[k], k < m.pathIndex ? "rgba(34,211,238,0.25)" : "rgba(34,211,238,0.6)", cell * 0.22, 99);
+    for (let i = 0; i < m.cols * m.rows; i++) fill(i, "rgba(237,235,228,0.05)");
+    for (let k = 0; k < m.shownExplored; k++) fill(m.explored[k], "rgba(242,163,58,0.16)");
+    for (let k = 0; k < m.path.length; k++) fill(m.path[k], k < m.pathIndex ? "rgba(246,189,108,0.3)" : "rgba(246,189,108,0.85)", cell * 0.22, 99);
     for (let i = 0; i < m.walls.length; i++) if (m.walls[i]) fill(i, color("--color-faint"), 0.5, 2);
-    fill(m.goal, "#f59e0b", 2, 4);
-    fill(m.start, "rgba(52,211,153,0.5)", 2, 4);
+    fill(m.goal, "#edebe4", 2, 4);
+    fill(m.start, "rgba(127,183,126,0.75)", 2, 4);
 
     // Agent with a glow
     ctx.shadowColor = color("--color-accent");
@@ -253,7 +254,7 @@ export default function PathfindingDemo() {
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-2">
         <button type="button" onClick={run} disabled={busy} className="btn btn-primary !px-4 !py-2 text-sm disabled:opacity-40">
-          ▶ Run
+          <Play size={15} aria-hidden /> Run
         </button>
         <button type="button" onClick={() => reset(true)} disabled={busy} className="btn btn-ghost !px-4 !py-2 text-sm disabled:opacity-40">
           Random maze
@@ -313,10 +314,10 @@ export default function PathfindingDemo() {
       </div>
 
       <ul className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
-        <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-emerald-400/60" />start</li>
-        <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-amber-500" />goal</li>
-        <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-primary/40" />explored</li>
-        <li><span className="mr-1 inline-block size-2.5 rounded-full bg-accent/70" />path</li>
+        <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-[#7fb77e]" />start</li>
+        <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-ink" />goal</li>
+        <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-accent/25" />explored</li>
+        <li><span className="mr-1 inline-block size-2.5 rounded-full bg-primary-soft" />path</li>
         <li><span className="mr-1 inline-block size-2.5 rounded-sm bg-faint" />wall</li>
       </ul>
     </div>

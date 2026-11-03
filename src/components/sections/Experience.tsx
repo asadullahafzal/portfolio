@@ -49,7 +49,7 @@ export default function Experience() {
           eyebrow="Experience"
           title={
             <>
-              Building, ranking <span className="text-gradient">&amp; teaching.</span>
+              Building, ranking <span className="accent-italic">&amp; teaching.</span>
             </>
           }
         />
@@ -59,7 +59,7 @@ export default function Experience() {
           <span
             aria-hidden
             data-timeline-fill
-            className="absolute bottom-0 left-0 top-0 w-px origin-top bg-gradient-to-b from-primary via-accent to-primary"
+            className="absolute bottom-0 left-0 top-0 w-px origin-top bg-accent"
           />
           {experience.map((job) => (
             <Reveal as="li" key={job.role} className="relative">
@@ -91,7 +91,8 @@ export default function Experience() {
                         src={job.video}
                         controls
                         playsInline
-                        preload="metadata"
+                        preload="none"
+                        poster="/images/ai-teaching-poster.webp"
                         className="aspect-video w-full rounded-xl border border-line bg-surface object-cover"
                       />
                       <figcaption className="mt-2 text-sm text-faint">Teaching an AI session at Dollar Tech</figcaption>

@@ -51,7 +51,7 @@ The first run: **the agent died in 28% of games**. For an agent that's supposed 
 The death logs all looked like this:
 
 ```text
-ASK ¬P[1,3] ✓ proved · ¬W ? unknown
+ASK ¬P[1,3] proved · ¬W ? unknown
 → MOVE to [1,3]
 Agent died at [1,3]: eaten by the Wumpus.
 ```

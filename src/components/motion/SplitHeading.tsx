@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import { isInView } from "./playWhenVisible";
 
 gsap.registerPlugin(SplitText, useGSAP);
 
@@ -17,7 +18,7 @@ export default function SplitHeading({ children, className, as: Tag = "h2" }: Pr
   useGSAP(
     () => {
       const el = ref.current;
-      if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!el || isInView(el) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       // Once revealed, later re-splits (resize, font load) just show the lines as they are.
       let revealed = false;

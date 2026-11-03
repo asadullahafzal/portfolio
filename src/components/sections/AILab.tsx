@@ -56,7 +56,7 @@ export default function AILab() {
           eyebrow="AI Lab"
           title={
             <>
-              Agents that <span className="text-gradient">think for themselves.</span>
+              Agents that <span className="accent-italic">think for themselves.</span>
             </>
           }
           intro="Don't take my word for it: run them. Both demos run my agents' logic live in your browser."
@@ -78,7 +78,7 @@ export default function AILab() {
                 }`}
               >
                 {d.tab}
-                {active === i && <span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-gradient-to-r from-primary to-accent" />}
+                {active === i && <span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-accent" />}
               </button>
             ))}
           </div>

@@ -6,6 +6,7 @@ import ProjectPreview from "@/components/sections/ProjectPreview";
 import Reveal from "@/components/motion/Reveal";
 import SplitHeading from "@/components/motion/SplitHeading";
 import { ArrowUpRightIcon } from "@/components/ui/Icons";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 // Only the featured projects have case studies; anything else is a 404.
 export const dynamicParams = false;
@@ -76,8 +77,6 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
       {/* Background glow */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[40rem]">
-        <div className="bg-grid absolute inset-0 opacity-50" />
-        <div className="absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[140px]" />
       </div>
 
       <article className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
@@ -120,7 +119,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 </a>
               )}
               <Link href="/#projects" className="btn btn-ghost">
-                ← All projects
+                <ArrowLeft size={16} aria-hidden /> All projects
               </Link>
             </div>
           </Reveal>
@@ -129,7 +128,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         {/* Preview + metrics */}
         <Reveal>
           <div className={project.image ? "" : "mx-auto max-w-3xl"}>
-            <ProjectPreview project={project} />
+            <ProjectPreview project={project} priority />
           </div>
         </Reveal>
         {project.metrics && (
@@ -169,7 +168,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                     <dd className="mt-1">
                       {live ? (
                         <a href={project.url} target="_blank" rel="noopener" className="text-primary-soft transition hover:text-accent">
-                          {new URL(project.url).hostname} ↗
+                          {new URL(project.url).hostname} <ArrowUpRight size={13} className="inline -translate-y-px" aria-hidden />
                         </a>
                       ) : (
                         <span className="text-muted">{new URL(project.url).hostname} (temporarily offline)</span>
@@ -216,7 +215,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               <Reveal as="ul" stagger className="grid gap-3 sm:grid-cols-2">
                 {project.highlights.map((h) => (
                   <li key={h} className="flex gap-3 rounded-xl border border-line bg-surface/60 p-4 text-sm leading-relaxed text-muted">
-                    <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
+                    <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
                     {h}
                   </li>
                 ))}
@@ -229,7 +228,6 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                   <p className="eyebrow mb-3">04 / The outcome</p>
                 </Reveal>
                 <Reveal delay={0.1} className="card relative overflow-hidden p-6 sm:p-8">
-                  <div aria-hidden className="absolute -right-16 -top-16 size-56 rounded-full bg-primary/15 blur-3xl" />
                   <p className="relative text-lg leading-relaxed text-ink">{project.caseStudy.outcome}</p>
                 </Reveal>
               </section>

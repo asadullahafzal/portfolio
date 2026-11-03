@@ -12,14 +12,13 @@ export default function About() {
           eyebrow="About"
           title={
             <>
-              An engineer who builds products that <span className="text-gradient">both ship and rank.</span>
+              An engineer who builds products that <span className="accent-italic">both ship and rank.</span>
             </>
           }
         />
 
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <Reveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div aria-hidden className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-accent/20 blur-2xl" />
             <div className="card overflow-hidden !rounded-[1.75rem] p-2">
               <Image
                 src={profile.photo}

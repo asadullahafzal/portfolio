@@ -111,7 +111,7 @@ export default function SkillsNetwork({ groups }: { groups: SkillGroup[] }) {
                 style={{ transitionDelay: `${i * 0.12}s` }}
               />
               {drawn && animate && (
-                <circle r={3} fill="var(--color-accent)" style={{ filter: "drop-shadow(0 0 6px var(--color-accent))" }}>
+                <circle r={3} fill="var(--color-accent)">
                   <animateMotion dur={`${2.2 + i * 0.3}s`} begin={`${1.4 + i * 0.25}s`} repeatCount="indefinite" path={c.d} />
                 </circle>
               )}
@@ -155,7 +155,7 @@ export default function SkillsNetwork({ groups }: { groups: SkillGroup[] }) {
                 <ul className="flex flex-wrap gap-2">
                   {g.skills.map((s) => (
                     <li key={s} className="chip">
-                      <span className="size-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
+                      <span className="size-1.5 rounded-full bg-accent" />
                       {s}
                     </li>
                   ))}

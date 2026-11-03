@@ -3,9 +3,12 @@ title: "How I built a 3D neural-network hero with React Three Fiber"
 description: "The glowing neural network at the top of my portfolio: how it's generated, why I skipped bloom for a custom glow shader, and the tricks that keep it fast on phones."
 date: 2026-10-09
 tags: [Three.js, React Three Fiber, WebGL, Performance]
+updated: 2026-11-03
 ---
 
-The first thing you see on my portfolio is a glowing 3D neural network. It isn't decoration for its own sake: each cluster of neurons is one of my skill areas, with **Full-Stack** at the core and AI, SEO, data, languages and ad-tech wired around it. Signals pulse between them, hovering a cluster lights it up, and scrolling flies the camera *into* the network.
+> **Update, November 2026:** my homepage hero is now a 3D desk scene (curved monitor, PC and all). This post documents the neural-network version that came before it; the techniques carry over.
+
+The first version of my portfolio opened with a glowing 3D neural network. It isn't decoration for its own sake: each cluster of neurons is one of my skill areas, with **Full-Stack** at the core and AI, SEO, data, languages and ad-tech wired around it. Signals pulse between them, hovering a cluster lights it up, and scrolling flies the camera *into* the network.
 
 Here's how it works, and the performance decisions that let it run smoothly on a mid-range phone.
 
@@ -108,4 +111,4 @@ This is the part that matters most in production:
 
 The hero loads after the page's text, the page keeps a Cumulative Layout Shift of **0**, and Lighthouse scores the site **100 for SEO, accessibility and best practices**.
 
-You can see it at the top of [my homepage](/), and the full source is on [GitHub](https://github.com/asadullahafzal/portfolio).
+The code for this version is in the [portfolio repository on GitHub](https://github.com/asadullahafzal/portfolio).

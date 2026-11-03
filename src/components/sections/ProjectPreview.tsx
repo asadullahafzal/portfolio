@@ -3,11 +3,12 @@ import ParallaxImage from "@/components/motion/ParallaxImage";
 
 // Browser-window frame around a project: a real screenshot when we have one,
 // otherwise a designed illustration of what the tool does.
-export default function ProjectPreview({ project }: { project: Project }) {
+// `priority` = it's the main image at the top of the page (case studies), so don't lazy-load it
+export default function ProjectPreview({ project, priority = false }: { project: Project; priority?: boolean }) {
   const host = project.url ? new URL(project.url).hostname : project.name;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-[0_30px_80px_-30px_rgb(47_123_255/0.45)]">
+    <div className="overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-[0_30px_60px_-30px_rgb(0_0_0/0.7)]">
       <div className="flex items-center gap-3 border-b border-line bg-surface-2/80 px-4 py-2.5">
         <span className="flex gap-1.5" aria-hidden>
           <span className="size-2.5 rounded-full bg-[#ff5f57]/80" />
@@ -23,6 +24,7 @@ export default function ProjectPreview({ project }: { project: Project }) {
           alt={`${project.name} homepage`}
           sizes="(min-width: 1024px) 560px, 92vw"
           className="aspect-[16/10]"
+          priority={priority}
         />
       ) : project.preview === "queries" ? (
         <QueriesIllustration />
@@ -74,7 +76,7 @@ function GeneratorIllustration() {
       <p className="relative font-mono text-[11px] uppercase tracking-widest text-accent">Pun Generator</p>
       <div className="relative mt-3 flex gap-2">
         <span className="flex-1 rounded-xl border border-line-strong bg-bg/80 px-4 py-3 text-sm text-ink">pizza</span>
-        <span className="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white">Generate</span>
+        <span className="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-bg">Generate</span>
       </div>
       <ul className="relative mt-4 space-y-2 text-xs text-ink sm:text-sm">
         {["You've got a pizza my heart.", "I'm on a pizza diet. I just eat it on the side.", "Slice to meet you!"].map((p) => (

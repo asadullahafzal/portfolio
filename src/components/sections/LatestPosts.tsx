@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatDate, getPosts } from "@/lib/blog";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/motion/Reveal";
+import { ArrowRight } from "lucide-react";
 
 // Latest blog posts on the home page (also strengthens internal links for SEO)
 export default async function LatestPosts() {
@@ -17,14 +18,14 @@ export default async function LatestPosts() {
             eyebrow="Writing"
             title={
               <>
-                Notes from <span className="text-gradient">the build.</span>
+                Notes from <span className="accent-italic">the build.</span>
               </>
             }
             intro="How things actually got built: the bugs, the trade-offs and the numbers."
           />
           <Reveal className="mb-12 sm:mb-16">
             <Link href="/blog" className="btn btn-ghost">
-              All posts →
+              All posts <ArrowRight size={16} aria-hidden />
             </Link>
           </Reveal>
         </div>

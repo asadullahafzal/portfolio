@@ -1,0 +1,57 @@
+# Daily mobile speed + SEO check of the live site.
+# If a page drops below the thresholds in lighthouserc.json the run fails and GitHub emails you.
+# Results: Actions tab → "Speed monitor" → latest run (summary table + full reports).
+name: Speed monitor
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # every day at 03:00 UTC (08:00 in Pakistan)
+  workflow_dispatch: {} # "Run workflow" button for an on-demand check
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Server response time (first byte)
+        run: |
+          echo "### Server response (from GitHub's US runners)" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Page | First byte | Total |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          for p in / /blog /projects/cpc-point; do
+            t=$(curl -s -o /dev/null -w "%{time_starttransfer} %{time_total}" "https://asadullahafzal.com$p")
+            echo "| $p | ${t% *}s | ${t#* }s |" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: Lighthouse (mobile)
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://asadullahafzal.com/
+            https://asadullahafzal.com/blog/wumpus-world-logic-agent-safety-bug
+            https://asadullahafzal.com/projects/cpc-point
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Summary
+        if: always()
+        env:
+          MANIFEST: ${{ steps.lighthouse.outputs.manifest }}
+          LINKS: ${{ steps.lighthouse.outputs.links }}
+        run: |
+          echo "### Lighthouse (mobile, median of 3 runs)" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Page | Performance | SEO | Accessibility | LCP | CLS | Report |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|---|---|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          links="${LINKS:-}"; [ -n "$links" ] || links='{}'
+          echo "${MANIFEST:-[]}" | jq -c ".[] | select(.isRepresentativeRun)" | while read -r run; do
+            url=$(jq -r .url <<< "$run")
+            json=$(jq -r .jsonPath <<< "$run")
+            score() { jq -r ".summary[\"$1\"] * 100 | round" <<< "$run"; }
+            lcp=$(jq -r ".audits[\"largest-contentful-paint\"].displayValue" "$json")
+            cls=$(jq -r ".audits[\"cumulative-layout-shift\"].displayValue" "$json")
+            link=$(jq -r --arg u "$url" '.[$u] // "#"' <<< "$links")
+            echo "| ${url#https://asadullahafzal.com} | $(score performance) | $(score seo) | $(score accessibility) | $lcp | $cls | [view]($link) |" >> "$GITHUB_STEP_SUMMARY"
+          done

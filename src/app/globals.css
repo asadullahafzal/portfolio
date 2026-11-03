@@ -2,36 +2,39 @@
 @import "lenis/dist/lenis.css";
 @plugin "@tailwindcss/typography";
 
-/* Design tokens — dark "neural" theme with electric blue / cyan glows.
-   Every color, font and glow in the site comes from here. */
+/* Design tokens: warm dark theme. Charcoal, warm off-white text and ONE accent (amber),
+   with a serif for display type. Every colour and font in the site comes from here. */
 @theme {
-  --color-bg: #05070f;
-  --color-surface: #0a1020;
-  --color-surface-2: #101a33;
-  --color-line: rgb(120 160 255 / 0.14);
-  --color-line-strong: rgb(120 160 255 / 0.28);
+  --color-bg: #121110;
+  --color-surface: #1b1a18;
+  --color-surface-2: #24221f;
+  --color-line: rgb(237 235 228 / 0.1);
+  --color-line-strong: rgb(237 235 228 / 0.2);
 
-  --color-ink: #e8eeff;
-  --color-muted: #8d9bc0;
-  --color-faint: #7884a8; /* ≥4.5:1 contrast on every background (WCAG AA) */
+  --color-ink: #edebe4;
+  --color-muted: #a39f94;
+  --color-faint: #8f8a7e; /* ≥4.5:1 on every background (WCAG AA) */
 
-  --color-primary: #2f7bff;
-  --color-primary-soft: #6ea2ff;
-  --color-accent: #22d3ee;
-  --color-violet: #7c5cff;
+  /* One accent. The old names are kept so components didn't need renaming. */
+  --color-primary: #f2a33a;
+  --color-primary-soft: #f6bd6c;
+  --color-accent: #f2a33a;
+  --color-violet: #c4843f;
 
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  --shadow-glow: 0 0 0 1px rgb(47 123 255 / 0.35), 0 8px 40px -8px rgb(47 123 255 / 0.55);
-  --shadow-glow-cyan: 0 0 0 1px rgb(34 211 238 / 0.35), 0 8px 40px -8px rgb(34 211 238 / 0.5);
+  --shadow-glow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 10px 30px -12px rgb(0 0 0 / 0.6);
+  --shadow-glow-cyan: 0 10px 30px -12px rgb(0 0 0 / 0.6);
 }
 
 @layer base {
   html {
     background: var(--color-bg);
     color-scheme: dark;
+    /* Instrument Serif has a single weight; never fake a bold version of it */
+    font-synthesis-weight: none;
   }
 
   body {
@@ -42,8 +45,8 @@
   }
 
   ::selection {
-    background: rgb(47 123 255 / 0.45);
-    color: #fff;
+    background: rgb(242 163 58 / 0.3);
+    color: var(--color-ink);
   }
 
   :focus-visible {
@@ -54,25 +57,23 @@
 }
 
 @layer components {
-  /* Gradient text used for key words in headings */
-  .text-gradient {
-    background: linear-gradient(100deg, var(--color-primary-soft) 0%, var(--color-accent) 60%, #a5f3fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  /* The emphasised words in headings: serif italic in the accent colour */
+  .accent-italic {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-style: italic;
   }
 
-  /* Glassy card on the dark background */
+  /* Flat card (no backdrop blur: it's expensive on phones) */
   .card {
-    background: linear-gradient(180deg, rgb(16 26 51 / 0.7), rgb(10 16 32 / 0.7));
+    background: var(--color-surface);
     border: 1px solid var(--color-line);
-    border-radius: 1.25rem;
-    backdrop-filter: blur(8px);
-    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    border-radius: 1rem;
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
   }
   .card-hover:hover {
     border-color: var(--color-line-strong);
-    box-shadow: var(--shadow-glow);
+    background: #1f1d1b;
     transform: translateY(-2px);
   }
 
@@ -80,19 +81,19 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.3rem 0.75rem;
+    padding: 0.28rem 0.7rem;
     border: 1px solid var(--color-line);
     border-radius: 999px;
-    background: rgb(47 123 255 / 0.06);
-    color: var(--color-ink);
+    background: transparent;
+    color: var(--color-muted);
     font-size: 0.8125rem;
     line-height: 1.4;
   }
 
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-accent);
   }
@@ -102,31 +103,32 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.8rem 1.4rem;
+    padding: 0.75rem 1.35rem;
     border-radius: 999px;
     font-weight: 600;
     font-size: 0.9375rem;
-    transition: transform 0.2s, box-shadow 0.3s, background 0.3s, border-color 0.3s;
+    transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
   }
   .btn:hover {
     transform: translateY(-1px);
   }
   .btn-primary {
-    background: linear-gradient(100deg, var(--color-primary), #1d5fe0);
-    color: #fff;
-    box-shadow: var(--shadow-glow);
+    background: var(--color-accent);
+    color: #121110;
+  }
+  .btn-primary:hover {
+    background: var(--color-primary-soft);
   }
   .btn-ghost {
     border: 1px solid var(--color-line-strong);
     color: var(--color-ink);
-    background: rgb(255 255 255 / 0.02);
+    background: transparent;
   }
   .btn-ghost:hover {
-    border-color: var(--color-accent);
-    box-shadow: var(--shadow-glow-cyan);
+    border-color: var(--color-ink);
   }
 
-  /* Cursor-following glow inside cards (position set by <Spotlight>) */
+  /* Soft warm light that follows the cursor inside cards (set by <Spotlight>) */
   .spotlight {
     position: relative;
     isolation: isolate;
@@ -137,7 +139,7 @@
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(47 123 255 / 0.14), transparent 60%);
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgb(242 163 58 / 0.06), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s;
     pointer-events: none;
@@ -161,7 +163,7 @@
   .timeline-dot.is-active {
     background: var(--color-accent);
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 4px rgb(34 211 238 / 0.15), 0 0 16px var(--color-accent);
+    box-shadow: 0 0 0 4px rgb(242 163 58 / 0.15);
   }
 
   /* Skill-network connectors draw themselves in (pathLength = 1) */
@@ -186,13 +188,14 @@
     scrollbar-color: var(--color-line-strong) transparent;
   }
 
-  /* Faint blueprint grid used behind sections */
+  /* Faint grid, only behind the interactive demos */
   .bg-grid {
     background-image:
       linear-gradient(var(--color-line) 1px, transparent 1px),
       linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
-    background-size: 64px 64px;
+    background-size: 48px 48px;
     mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    opacity: 0.6;
   }
 }
 
@@ -217,7 +220,7 @@
   --tw-prose-quotes: var(--color-ink);
   --tw-prose-quote-borders: var(--color-accent);
   --tw-prose-captions: var(--color-faint);
-  --tw-prose-code: #a5f3fc;
+  --tw-prose-code: #f6bd6c;
   --tw-prose-pre-code: #e6edf3;
   --tw-prose-pre-bg: transparent;
   --tw-prose-th-borders: var(--color-line-strong);
@@ -243,7 +246,7 @@
 }
 .article a:not(.heading-anchor) {
   text-underline-offset: 3px;
-  text-decoration-color: rgb(110 162 255 / 0.4);
+  text-decoration-color: rgb(242 163 58 / 0.4);
   transition: color 0.2s, text-decoration-color 0.2s;
 }
 .article a:not(.heading-anchor):hover {
@@ -254,7 +257,7 @@
 .article :not(pre) > code {
   padding: 0.15em 0.4em;
   border-radius: 0.375rem;
-  background: rgb(47 123 255 / 0.12);
+  background: rgb(242 163 58 / 0.08);
   border: 1px solid var(--color-line);
   font-weight: 500;
   font-size: 0.875em;
@@ -270,7 +273,7 @@
 .article pre {
   border: 1px solid var(--color-line);
   border-radius: 0.875rem;
-  background: #0b1222;
+  background: #161513;
   padding: 1.1em 1.25em;
   font-size: 0.85em;
   line-height: 1.7;

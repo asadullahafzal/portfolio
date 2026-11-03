@@ -12,7 +12,7 @@ export default function Skills() {
           eyebrow="Skills"
           title={
             <>
-              One network, <span className="text-gradient">six specialties.</span>
+              One network, <span className="accent-italic">six specialties.</span>
             </>
           }
           intro="Full-stack engineering sits at the center, connected to SEO, AI, data and ad-tech. That's what lets me take a product from idea to revenue."

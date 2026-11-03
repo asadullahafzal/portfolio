@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { LIMITS, validateContact, type ContactErrors, type ContactInput } from "@/lib/contact";
+import { Check } from "lucide-react";
 import { profile } from "@/data/profile";
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -84,7 +85,7 @@ export default function ContactForm() {
     return (
       <div role="status" className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-400/[0.06] p-8 text-center">
         <span className="grid size-12 place-items-center rounded-full bg-emerald-400/15 text-2xl" aria-hidden>
-          ✓
+          <Check size={22} strokeWidth={2.4} />
         </span>
         <p className="font-display text-xl font-semibold text-ink">Message sent!</p>
         <p className="max-w-sm text-sm text-muted">Thanks for reaching out. Asadullah will reply to your email soon.</p>

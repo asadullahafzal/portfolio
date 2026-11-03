@@ -8,10 +8,10 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-type Props = { src: string; alt: string; sizes: string; className?: string };
+type Props = { src: string; alt: string; sizes: string; className?: string; priority?: boolean };
 
 // Image that drifts slightly slower than the page inside its frame.
-export default function ParallaxImage({ src, alt, sizes, className = "" }: Props) {
+export default function ParallaxImage({ src, alt, sizes, className = "", priority = false }: Props) {
   const frame = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -32,7 +32,7 @@ export default function ParallaxImage({ src, alt, sizes, className = "" }: Props
 
   return (
     <div ref={frame} className={`relative overflow-hidden ${className}`}>
-      <Image src={src} alt={alt} fill sizes={sizes} className="scale-[1.14] object-cover object-top" />
+      <Image src={src} alt={alt} fill sizes={sizes} preload={priority} className="scale-[1.14] object-cover object-top" />
     </div>
   );
 }

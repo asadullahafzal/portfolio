@@ -14,7 +14,7 @@ export default function Marquee() {
             {skills.map((s) => (
               <li key={s} className="flex items-center gap-6 pr-6 font-display text-lg text-muted sm:text-xl">
                 {s}
-                <span className="text-primary">◆</span>
+                <span className="size-1.5 rounded-full bg-accent/70" aria-hidden />
               </li>
             ))}
           </ul>

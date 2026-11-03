@@ -59,7 +59,7 @@ export const intents: Intent[] = [
     keywords: ["hi", "hello", "hey", "salam", "assalamualaikum", "aoa", "yo", "hola"],
     phrases: ["good morning", "good evening", "good afternoon"],
     reply: () => ({
-      text: `Hi! 👋 I'm ${NAME}'s portfolio assistant. Ask me about ${NAME}'s projects, skills, experience, AI teaching, or how to get in touch.`,
+      text: `Hi! I'm ${NAME}'s portfolio assistant. Ask me about ${NAME}'s projects, skills, experience, AI teaching, or how to get in touch.`,
       suggestions: starterSuggestions,
     }),
   },

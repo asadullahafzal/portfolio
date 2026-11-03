@@ -2,17 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { profile, stats } from "@/data/profile";
 import Counter from "@/components/motion/Counter";
-import { ArrowUpRightIcon, ChatIcon } from "@/components/ui/Icons";
 import { openChat } from "@/lib/chat";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// The 3D scene is client-only and loaded separately, so the text paints first.
+// The 3D desk is client-only and loaded after the page is idle; a still render of it
+// (the poster) shows instantly, so phones see the full hero without waiting for WebGL.
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), { ssr: false });
 
 function supportsWebGL() {
@@ -30,22 +32,20 @@ export default function Hero() {
   const [showScene, setShowScene] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
 
-  // Mount the 3D network once the browser is idle (the CSS glow stays as the fallback)
   useEffect(() => {
     if (!supportsWebGL()) return;
     if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(() => setShowScene(true), { timeout: 1500 });
+      const id = window.requestIdleCallback(() => setShowScene(true), { timeout: 2000 });
       return () => window.cancelIdleCallback(id);
     }
-    const id = setTimeout(() => setShowScene(true), 300);
+    const id = setTimeout(() => setShowScene(true), 600);
     return () => clearTimeout(id);
   }, []);
 
+  // Scrolling past the hero eases the camera towards the monitor
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      // Scrolling out of the hero: camera flies into the network while the text drifts away
       ScrollTrigger.create({
         trigger: ref.current,
         start: "top top",
@@ -55,103 +55,65 @@ export default function Hero() {
           progress.current = self.progress;
         },
       });
-      gsap.to("[data-hero-content]", {
-        yPercent: -10,
-        autoAlpha: 0,
-        ease: "none",
-        scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom 15%", scrub: true },
-      });
-      gsap.to("[data-hero-scene]", {
-        autoAlpha: 0,
-        ease: "power1.in",
-        scrollTrigger: { trigger: ref.current, start: "45% top", end: "bottom top", scrub: true },
-      });
-
-      // Intro sequence on first load
-      gsap
-        .timeline({ defaults: { ease: "power3.out", duration: 1 } })
-        .from("[data-intro='eyebrow']", { y: 16, autoAlpha: 0, duration: 0.7 })
-        .from("[data-intro='name'] > span", { yPercent: 110, stagger: 0.08 }, "-=0.4")
-        .from("[data-intro='roles'] > *", { y: 14, autoAlpha: 0, stagger: 0.06, duration: 0.6 }, "-=0.6")
-        .from("[data-intro='tagline']", { y: 16, autoAlpha: 0 }, "-=0.5")
-        .from("[data-intro='cta'] > *", { y: 16, autoAlpha: 0, stagger: 0.08 }, "-=0.7")
-        .from("[data-intro='stats'] > *", { y: 20, autoAlpha: 0, stagger: 0.08 }, "-=0.6");
     },
     { scope: ref },
   );
 
   return (
-    <section ref={ref} id="top" className="relative isolate flex min-h-svh flex-col overflow-hidden pt-16">
-      {/* Background: CSS glows (also the no-WebGL fallback) + the 3D neural network */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-grid absolute inset-0 opacity-60" />
-        <div className="absolute -top-40 left-1/2 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-primary/25 blur-[140px]" />
-        <div className="absolute -right-32 top-1/3 h-[28rem] w-[28rem] rounded-full bg-accent/15 blur-[120px]" />
-        <div className="absolute -left-40 bottom-0 h-[24rem] w-[24rem] rounded-full bg-violet/15 blur-[120px]" />
-        {/* Pinned to the viewport so scrolling moves the camera through the network, not the network off screen */}
-        <div data-hero-scene className="fixed inset-0">
-          <div className={`absolute inset-0 transition-opacity duration-[1600ms] ${sceneReady ? "opacity-100" : "opacity-0"}`}>
-            {showScene && <HeroScene eventSource={ref} progress={progress} onReady={() => setSceneReady(true)} />}
-          </div>
-        </div>
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg" />
-      </div>
-
-      <div
-        data-hero-content
-        className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-4 py-16 sm:px-6"
-      >
-        <p data-intro="eyebrow" className="chip mb-8 w-fit">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
-            <span className="relative inline-flex size-2 rounded-full bg-accent" />
-          </span>
+    <section ref={ref} id="top" className="relative isolate overflow-hidden pt-16">
+      {/* Text is fully visible on first paint: no intro animation hides it (that delayed LCP on phones) */}
+      <div className="mx-auto w-full max-w-6xl px-4 pt-14 sm:px-6 sm:pt-20">
+        <p className="chip mb-7 w-fit">
+          <span className="size-1.5 rounded-full bg-emerald-400" aria-hidden />
           {profile.availability}
         </p>
 
-        <h1 data-intro="name" className="font-display text-[clamp(2.75rem,9vw,7.5rem)] font-bold leading-[0.95] tracking-tight">
-          <span className="block overflow-hidden pb-2">
-            <span className="block">Asadullah</span>
-          </span>
-          <span className="block overflow-hidden pb-2">
-            <span className="text-gradient block">Afzal</span>
-          </span>
+        <h1 className="font-display text-[clamp(2.9rem,8vw,6.5rem)] leading-[0.98] tracking-[-0.015em]">
+          Hi, I&apos;m <span className="accent-italic">Asadullah</span> Afzal
         </h1>
 
-        <p data-intro="roles" className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-sm text-muted sm:text-base">
-          {profile.roles.map((role, i) => (
-            <span key={role} className="flex items-center gap-3">
-              {i > 0 && <span className="text-primary">◆</span>}
-              <span className="text-ink">{role}</span>
-            </span>
-          ))}
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+          {profile.roles.join(", ").replace(/, ([^,]*)$/, " and $1")}. {profile.tagline} Currently at{" "}
+          <span className="text-ink">Dollar Tech</span>, studying CS at <span className="text-ink">FAST-NUCES</span>.
         </p>
 
-        <p data-intro="tagline" className="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
-          {profile.tagline} Currently building at <span className="text-ink">Dollar Tech</span> and studying CS at{" "}
-          <span className="text-ink">FAST-NUCES</span>.
-        </p>
-
-        <div data-intro="cta" className="mt-10 flex flex-wrap gap-3">
+        <div className="mt-9 flex flex-wrap gap-3">
           <a href="#projects" className="btn btn-primary">
-            View my work <ArrowUpRightIcon width={16} height={16} />
+            View my work <ArrowUpRight size={17} strokeWidth={2.2} aria-hidden />
           </a>
           <button type="button" onClick={() => openChat()} className="btn btn-ghost">
-            <ChatIcon width={16} height={16} /> Ask my AI
+            <MessageCircle size={17} aria-hidden /> Ask my AI
           </button>
           <a href="#contact" className="btn btn-ghost">
             Get in touch
           </a>
         </div>
+      </div>
 
-        <dl data-intro="stats" className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="bg-bg/80 p-5 backdrop-blur sm:p-6">
+      {/* The desk */}
+      <div aria-hidden className="relative mx-auto -mt-2 h-[clamp(300px,58vh,660px)] w-full max-w-7xl">
+        <Image
+          src="/images/desk-poster.webp"
+          alt=""
+          fill
+          preload
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          className={`object-contain transition-opacity duration-700 ${sceneReady ? "opacity-0" : "opacity-100"}`}
+        />
+        <div className={`absolute inset-0 transition-opacity duration-700 ${sceneReady ? "opacity-100" : "opacity-0"}`}>
+          {showScene && <HeroScene eventSource={ref} progress={progress} onReady={() => setSceneReady(true)} />}
+        </div>
+      </div>
+
+      <div className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6">
+        <dl className="grid grid-cols-2 border-y border-line sm:grid-cols-4">
+          {stats.map((s, i) => (
+            <div key={s.label} className={`px-1 py-6 sm:px-6 ${i > 0 ? "sm:border-l sm:border-line" : ""} ${i % 2 ? "border-l border-line pl-5 sm:pl-6" : ""}`}>
               <dt className="sr-only">{s.label}</dt>
-              <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+              <dd className="font-display text-4xl text-ink sm:text-5xl">
                 <Counter value={s.value} suffix={s.suffix} />
               </dd>
-              <dd className="mt-1.5 text-xs leading-snug text-muted sm:text-sm">{s.label}</dd>
+              <dd className="mt-1 text-xs leading-snug text-muted sm:text-sm">{s.label}</dd>
             </div>
           ))}
         </dl>

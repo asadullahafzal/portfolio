@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { getReply, OPEN_CHAT_EVENT, starterSuggestions, type BotReply, type ChatMessage } from "@/lib/chat";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ChatIcon, CloseIcon } from "@/components/ui/Icons";
 
 const STORAGE_KEY = "portfolio-chat";
@@ -11,7 +12,7 @@ const MAX_LENGTH = 300;
 const greeting: ChatMessage = {
   id: "greeting",
   role: "bot",
-  text: "Hi! 👋 I'm Asadullah's portfolio assistant. Ask me anything about the projects, skills, experience or AI teaching.",
+  text: "Hi! I'm Asadullah's portfolio assistant. Ask me anything about the projects, skills, experience or AI teaching.",
   suggestions: starterSuggestions,
 };
 
@@ -161,13 +162,13 @@ export default function ChatWidget() {
         aria-hidden={!open}
         inert={!open}
         onKeyDown={(e) => e.key === "Escape" && close()}
-        className={`fixed inset-x-3 bottom-3 z-[60] flex h-[min(620px,calc(100svh-5.5rem))] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-line-strong bg-bg/95 shadow-[0_30px_100px_-20px_rgb(47_123_255/0.55)] backdrop-blur-xl transition-all duration-300 sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[400px] ${
+        className={`fixed inset-x-3 bottom-3 z-[60] flex h-[min(620px,calc(100svh-5.5rem))] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-line-strong bg-surface shadow-[0_30px_80px_-20px_rgb(0_0_0/0.75)] transition-all duration-300 sm:inset-x-auto sm:bottom-5 sm:right-5 sm:w-[400px] ${
           open ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"
         }`}
       >
         {/* Header */}
         <div className="flex items-center gap-3 border-b border-line bg-surface/80 px-4 py-3.5">
-          <span className="relative grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-accent font-display text-sm font-bold text-white">
+          <span className="relative grid size-10 shrink-0 place-items-center rounded-2xl bg-primary font-display text-sm text-bg">
             AA
             <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2 border-surface bg-emerald-400" />
           </span>
@@ -204,7 +205,7 @@ export default function ChatWidget() {
             if (m.role === "user") {
               return (
                 <div key={m.id} className="flex justify-end">
-                  <p className="max-w-[85%] whitespace-pre-line rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-sm leading-relaxed text-white">
+                  <p className="max-w-[85%] whitespace-pre-line rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-sm leading-relaxed text-bg">
                     {m.text}
                   </p>
                 </div>
@@ -228,7 +229,7 @@ export default function ChatWidget() {
                           onClick={() => window.innerWidth < 640 && close()}
                           className="chip !border-primary/40 !bg-primary/10 text-primary-soft transition hover:!border-accent hover:text-accent"
                         >
-                          {l.label} →
+                          {l.label} <ArrowRight size={13} aria-hidden />
                         </Link>
                       ) : (
                         <a
@@ -238,7 +239,7 @@ export default function ChatWidget() {
                           {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}
                           className="chip !border-primary/40 !bg-primary/10 text-primary-soft transition hover:!border-accent hover:text-accent"
                         >
-                          {l.label} ↗
+                          {l.label} <ArrowUpRight size={13} aria-hidden />
                         </a>
                       ),
                     )}
@@ -292,7 +293,7 @@ export default function ChatWidget() {
             type="submit"
             disabled={!input.trim() || typing}
             aria-label="Send"
-            className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-white transition hover:bg-primary-soft disabled:opacity-40"
+            className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-bg transition hover:bg-primary-soft disabled:opacity-40"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M5 12h14M13 6l6 6-6 6" />

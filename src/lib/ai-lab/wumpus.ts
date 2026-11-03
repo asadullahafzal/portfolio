@@ -212,7 +212,7 @@ export class WumpusEngine {
       if (this.dangerKnown.has(k) || this.visited.has(k)) continue;
       const noPit = this.entails(`!P_${nr}_${nc}`);
       const noWumpus = this.entails(`!W_${nr}_${nc}`);
-      this.log(`ASK ¬P[${nr},${nc}] ${noPit ? "✓ proved" : "? unknown"} · ¬W ${noWumpus ? "✓ proved" : "? unknown"}`);
+      this.log(`ASK ¬P[${nr},${nc}] ${noPit ? "proved" : "? unknown"} · ¬W ${noWumpus ? "proved" : "? unknown"}`);
       if (noPit) this.markPitFree(k);
       if (noWumpus) this.markWumpusFree(k);
       if (noPit && noWumpus) {

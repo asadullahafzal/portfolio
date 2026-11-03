@@ -78,8 +78,6 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
     <main id="main" className="relative overflow-hidden pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem]">
-        <div className="bg-grid absolute inset-0 opacity-40" />
-        <div className="absolute -top-48 left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[140px]" />
       </div>
 
       <article className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">

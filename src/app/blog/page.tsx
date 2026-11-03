@@ -4,6 +4,7 @@ import { formatDate, getPosts } from "@/lib/blog";
 import { profile, site } from "@/data/profile";
 import Reveal from "@/components/motion/Reveal";
 import SplitHeading from "@/components/motion/SplitHeading";
+import { ArrowRight, Rss } from "lucide-react";
 
 const description =
   "Engineering notes from building and shipping real products: full-stack development, SEO, AI agents, 3D on the web and self-hosting.";
@@ -38,8 +39,6 @@ export default async function BlogIndex() {
     <main id="main" className="relative overflow-hidden pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[36rem]">
-        <div className="bg-grid absolute inset-0 opacity-50" />
-        <div className="absolute -top-40 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[140px]" />
       </div>
 
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-16 sm:px-6 sm:pt-24">
@@ -47,12 +46,12 @@ export default async function BlogIndex() {
           <p className="eyebrow mb-4">Blog</p>
         </Reveal>
         <SplitHeading as="h1" className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-          Notes from <span className="text-gradient">shipping real products.</span>
+          Notes from <span className="accent-italic">shipping real products.</span>
         </SplitHeading>
         <Reveal delay={0.15}>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{description}</p>
           <a href="/blog/rss.xml" className="mt-5 inline-flex items-center gap-2 font-mono text-xs text-faint transition hover:text-accent">
-            <span className="size-1.5 rounded-full bg-amber-400" /> RSS feed
+            <Rss size={13} aria-hidden /> RSS feed
           </a>
         </Reveal>
 
@@ -77,7 +76,7 @@ export default async function BlogIndex() {
                       {t}
                     </span>
                   ))}
-                  <span className="ml-auto text-sm text-primary-soft transition group-hover:text-accent">Read →</span>
+                  <span className="ml-auto inline-flex items-center gap-1 text-sm text-primary-soft transition group-hover:text-accent">Read <ArrowRight size={14} aria-hidden /></span>
                 </div>
               </article>
             </Reveal>

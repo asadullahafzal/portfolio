@@ -3,7 +3,7 @@
 import { useRef, type ElementType, type ReactNode } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { playWhenVisible } from "./playWhenVisible";
+import { isInView, playWhenVisible } from "./playWhenVisible";
 
 gsap.registerPlugin(useGSAP);
 
@@ -26,7 +26,7 @@ export default function Reveal({ children, as: Tag = "div", className, stagger =
   useGSAP(
     () => {
       const el = ref.current;
-      if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!el || isInView(el) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       const targets = stagger ? Array.from(el.children) : el;
       const tween = gsap.from(targets, {

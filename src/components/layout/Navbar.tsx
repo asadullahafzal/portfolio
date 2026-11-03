@@ -134,7 +134,7 @@ export default function Navbar() {
       <div
         ref={progress}
         aria-hidden
-        className="absolute inset-x-0 bottom-[-1px] h-px origin-left scale-x-0 bg-gradient-to-r from-primary via-accent to-primary-soft"
+        className="absolute inset-x-0 bottom-[-1px] h-px origin-left scale-x-0 bg-accent"
       />
 
       {open && (

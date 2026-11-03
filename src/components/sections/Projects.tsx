@@ -4,6 +4,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/motion/Reveal";
 import Spotlight from "@/components/motion/Spotlight";
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/ui/Icons";
+import { ArrowRight } from "lucide-react";
 import ProjectPreview from "./ProjectPreview";
 
 const hostname = (url: string) => new URL(url).hostname;
@@ -17,7 +18,7 @@ export default function Projects() {
           eyebrow="Projects"
           title={
             <>
-              Live products, <span className="text-gradient">real users.</span>
+              Live products, <span className="accent-italic">real users.</span>
             </>
           }
           intro="These aren't class assignments. They're live products built for publishers, creators and readers worldwide."
@@ -27,7 +28,6 @@ export default function Projects() {
           {featuredProjects.map((p, i) => (
             <Reveal key={p.slug}>
               <Spotlight as="article" className="card overflow-hidden p-6 sm:p-10">
-                <div aria-hidden className="absolute -right-24 -top-24 -z-10 size-72 rounded-full bg-primary/10 blur-3xl" />
                 <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
                   {/* Alternate the preview left/right on desktop */}
                   <div className={i % 2 ? "lg:order-2" : ""}>
@@ -69,7 +69,7 @@ export default function Projects() {
                     </ul>
                     <div className="mt-8 flex flex-wrap gap-3">
                       <Link href={`/projects/${p.slug}`} className="btn btn-primary">
-                        Read case study <span aria-hidden>→</span>
+                        Read case study <ArrowRight size={16} aria-hidden />
                       </Link>
                       {p.url && !p.offline && (
                         <a href={p.url} target="_blank" rel="noopener" className="btn btn-ghost">

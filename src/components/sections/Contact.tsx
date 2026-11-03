@@ -17,7 +17,6 @@ export default function Contact() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <Reveal className="card relative overflow-hidden px-6 py-12 sm:px-12 sm:py-16">
           <div aria-hidden className="absolute inset-0 -z-10">
-            <div className="absolute left-1/2 top-0 h-80 w-[40rem] max-w-full -translate-x-1/2 rounded-full bg-primary/25 blur-[100px]" />
           </div>
 
           <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
@@ -26,7 +25,7 @@ export default function Contact() {
                 <span className="text-faint">07 /</span> Contact
               </p>
               <SplitHeading className="font-display text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-                Have a product to build, rank <span className="text-gradient">or automate?</span>
+                Have a product to build, rank <span className="accent-italic">or automate?</span>
               </SplitHeading>
               <p className="mt-5 text-lg text-muted">
                 I&apos;m open to freelance projects and full-time roles. Tell me what you&apos;re working on and I&apos;ll get back to you.

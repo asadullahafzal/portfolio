@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type RefObject } from "react";
 import { Canvas } from "@react-three/fiber";
-import NeuralNetwork from "./NeuralNetwork";
+import DeskScene from "./DeskScene";
 
 type Props = {
   /** Element that receives pointer events (the hero section), so the text above stays clickable */
@@ -27,8 +27,8 @@ export default function HeroScene({ eventSource, progress, onReady }: Props) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 13], fov: 50, near: 0.1, far: 100 }}
-      dpr={[1, 1.75]}
+      camera={{ position: [0, 0.95, 4], fov: 32, near: 0.1, far: 50 }}
+      dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       eventSource={eventSource as RefObject<HTMLElement>}
       eventPrefix="client"
@@ -36,7 +36,7 @@ export default function HeroScene({ eventSource, progress, onReady }: Props) {
       onCreated={() => onReady?.()}
       style={{ pointerEvents: "none" }}
     >
-      <NeuralNetwork progress={progress} reducedMotion={reducedMotion} />
+      <DeskScene progress={progress} reducedMotion={reducedMotion} />
     </Canvas>
   );
 }
