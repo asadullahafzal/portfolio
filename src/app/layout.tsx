@@ -8,7 +8,7 @@ import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 
 // One family (Poppins, as in the reference design); mono uses the system font
-const poppins = Poppins({ variable: "--font-poppins", subsets: ["latin"], weight: ["400", "500", "600", "700", "900"] });
+const poppins = Poppins({ variable: "--font-poppins", subsets: ["latin"], weight: ["400", "500", "700", "900"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
