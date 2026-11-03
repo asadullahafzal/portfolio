@@ -43,15 +43,10 @@ export default function Experience() {
 
   return (
     <section id="experience" className="relative scroll-mt-16 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-6 sm:px-16">
         <SectionHeading
-          index="03"
-          eyebrow="Experience"
-          title={
-            <>
-              Building, ranking <span className="accent-italic">&amp; teaching.</span>
-            </>
-          }
+          eyebrow="What I have done so far"
+          title="Work Experience."
         />
 
         <ol ref={list} className="relative space-y-6 pl-6 sm:pl-10">

@@ -14,7 +14,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative scroll-mt-16 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-6 sm:px-16">
         <Reveal className="card relative overflow-hidden px-6 py-12 sm:px-12 sm:py-16">
           <div aria-hidden className="absolute inset-0 -z-10">
           </div>
@@ -22,10 +22,10 @@ export default function Contact() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
             <div>
               <p className="eyebrow mb-4">
-                <span className="text-faint">07 /</span> Contact
+                Get in touch
               </p>
-              <SplitHeading className="font-display text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-                Have a product to build, rank <span className="accent-italic">or automate?</span>
+              <SplitHeading className="text-[30px] font-black leading-tight text-ink xs:text-[40px] sm:text-[50px] md:text-[60px]">
+                Contact.
               </SplitHeading>
               <p className="mt-5 text-lg text-muted">
                 I&apos;m open to freelance projects and full-time roles. Tell me what you&apos;re working on and I&apos;ll get back to you.

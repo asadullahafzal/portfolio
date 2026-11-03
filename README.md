@@ -6,7 +6,7 @@ Personal portfolio of **Asadullah Afzal**: Full-Stack Engineer, SEO Expert and A
 
 ## Highlights
 
-- **3D neural-network hero** built with Three.js / React Three Fiber: six skill clusters, signal pulses, hover labels and a scroll fly-through, rendered with a custom glow shader
+- **3D desk hero** with React Three Fiber: a realistic gaming-PC model (compressed 15 MB → 1.4 MB) whose monitor types out live code, plus an added vertical monitor replaying the deploy log; instant poster images on phones
 - **Scroll animations** with GSAP (ScrollTrigger, SplitText) and Lenis smooth scrolling
 - **"Ask my AI" assistant** that answers questions about my work entirely in the browser: typo-tolerant intent matching, project/skill detection and follow-ups, no API key needed
 - **Case-study pages** for each featured project, statically generated
@@ -50,3 +50,7 @@ sitemap and the RSS feed automatically, with its own share image. Commit, push a
 ## Deploy
 
 See [DEPLOY.md](DEPLOY.md).
+
+## Credits
+
+3D desk based on ["Gaming Desktop PC"](https://sketchfab.com/3d-models/gaming-desktop-pc-d1d8282c9916438091f11aeb28787b66) by [Yolala1232](https://sketchfab.com/Yolala1232), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Design inspired by [ladunjexa/reactjs18-3d-portfolio](https://github.com/ladunjexa/reactjs18-3d-portfolio) (MIT).

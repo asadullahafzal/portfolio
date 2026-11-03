@@ -8,7 +8,7 @@ export default function NotFound() {
       <div>
         <p className="eyebrow mb-4">Error 404</p>
         <h1 className="font-display text-5xl font-bold tracking-tight sm:text-7xl">
-          Lost in the <span className="accent-italic">network.</span>
+          Lost in the <span className="accent-text">network.</span>
         </h1>
         <p className="mx-auto mt-5 max-w-md text-lg text-muted">This page doesn&apos;t exist, but plenty of others do.</p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">

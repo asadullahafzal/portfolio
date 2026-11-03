@@ -50,15 +50,10 @@ export default function AILab() {
 
   return (
     <section ref={sectionRef} id="lab" className="relative scroll-mt-16 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-6 sm:px-16">
         <SectionHeading
-          index="05"
-          eyebrow="AI Lab"
-          title={
-            <>
-              Agents that <span className="accent-italic">think for themselves.</span>
-            </>
-          }
+          eyebrow="Try my agents live"
+          title="AI Lab."
           intro="Don't take my word for it: run them. Both demos run my agents' logic live in your browser."
         />
 

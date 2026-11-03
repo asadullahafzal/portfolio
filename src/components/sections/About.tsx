@@ -1,38 +1,19 @@
 import Image from "next/image";
-import { education, profile } from "@/data/profile";
+import { education, profile, stats } from "@/data/profile";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/motion/Reveal";
+import Tilt from "@/components/motion/Tilt";
+import Counter from "@/components/motion/Counter";
 
 export default function About() {
   return (
     <section id="about" className="relative scroll-mt-16 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          index="01"
-          eyebrow="About"
-          title={
-            <>
-              An engineer who builds products that <span className="accent-italic">both ship and rank.</span>
-            </>
-          }
-        />
+      <div className="mx-auto max-w-7xl px-6 sm:px-16">
+        <SectionHeading eyebrow="Introduction" title="Overview." />
 
-        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-          <Reveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div className="card overflow-hidden !rounded-[1.75rem] p-2">
-              <Image
-                src={profile.photo}
-                alt={`Portrait of ${profile.name}`}
-                width={1086}
-                height={1448}
-                sizes="(min-width: 1024px) 420px, 90vw"
-                className="h-auto w-full rounded-[1.4rem]"
-              />
-            </div>
-          </Reveal>
-
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
           <div>
-            <Reveal stagger className="space-y-5 text-lg leading-relaxed text-muted">
+            <Reveal stagger className="space-y-5 text-[17px] leading-[30px] text-muted">
               <p>
                 I&apos;m <span className="text-ink">{profile.name}</span>, a full-stack engineer and SEO expert at{" "}
                 <span className="text-ink">Dollar Tech</span>. I build and run live, revenue-generating products, from{" "}
@@ -50,12 +31,12 @@ export default function About() {
             </Reveal>
 
             <Reveal className="card mt-10 p-6 sm:p-7">
-              <p className="eyebrow mb-3">Education</p>
-              <h3 className="font-display text-xl font-semibold text-ink">{education.degree}</h3>
+              <p className="eyebrow mb-3 !text-sm">Education</p>
+              <h3 className="text-xl font-bold text-ink">{education.degree}</h3>
               <p className="mt-1 text-muted">
                 {education.school} <span className="text-faint">· {education.schoolFull}</span>
               </p>
-              <p className="mt-1 font-mono text-sm text-accent">{education.period}</p>
+              <p className="mt-1 text-sm font-medium text-accent">{education.period}</p>
               <ul className="mt-5 flex flex-wrap gap-2">
                 {education.coursework.map((c) => (
                   <li key={c} className="chip">
@@ -65,7 +46,34 @@ export default function About() {
               </ul>
             </Reveal>
           </div>
+
+          <Reveal className="relative mx-auto w-full max-w-sm lg:max-w-none">
+            <div className="card-gradient overflow-hidden p-2">
+              <Image
+                src={profile.photo}
+                alt={`Portrait of ${profile.name}`}
+                width={1086}
+                height={1448}
+                sizes="(min-width: 1024px) 420px, 90vw"
+                className="h-auto w-full rounded-[14px]"
+              />
+            </div>
+          </Reveal>
         </div>
+
+        {/* Numbers as tilting gradient cards (the reference's service cards) */}
+        <Reveal stagger className="mt-16 grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-4">
+          {stats.map((s) => (
+            <Tilt key={s.label}>
+              <div className="card-gradient flex min-h-[180px] flex-col items-center justify-center px-4 py-8 text-center sm:min-h-[220px]">
+                <p className="text-4xl font-black text-ink sm:text-5xl">
+                  <Counter value={s.value} suffix={s.suffix} />
+                </p>
+                <p className="mt-3 text-sm font-medium text-muted sm:text-base">{s.label}</p>
+              </div>
+            </Tilt>
+          ))}
+        </Reveal>
       </div>
     </section>
   );

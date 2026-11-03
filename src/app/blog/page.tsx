@@ -46,7 +46,7 @@ export default async function BlogIndex() {
           <p className="eyebrow mb-4">Blog</p>
         </Reveal>
         <SplitHeading as="h1" className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-          Notes from <span className="accent-italic">shipping real products.</span>
+          Notes from <span className="accent-text">shipping real products.</span>
         </SplitHeading>
         <Reveal delay={0.15}>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{description}</p>

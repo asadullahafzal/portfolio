@@ -2,39 +2,38 @@
 @import "lenis/dist/lenis.css";
 @plugin "@tailwindcss/typography";
 
-/* Design tokens: warm dark theme. Charcoal, warm off-white text and ONE accent (amber),
-   with a serif for display type. Every colour and font in the site comes from here. */
+/* Design tokens, based on the reference portfolio (ladunjexa/reactjs18-3d-portfolio):
+   deep navy, purple cards, lavender-grey text, a vivid purple accent and Poppins. */
 @theme {
-  --color-bg: #121110;
-  --color-surface: #1b1a18;
-  --color-surface-2: #24221f;
-  --color-line: rgb(237 235 228 / 0.1);
-  --color-line-strong: rgb(237 235 228 / 0.2);
+  --color-bg: #050816;
+  --color-surface: #151030;
+  --color-surface-2: #100d25;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.16);
 
-  --color-ink: #edebe4;
-  --color-muted: #a39f94;
-  --color-faint: #8f8a7e; /* ≥4.5:1 on every background (WCAG AA) */
+  --color-ink: #f3f3f3;
+  --color-muted: #aaa6c3;
+  --color-faint: #8a86a8; /* ≥4.5:1 on every background (WCAG AA) */
 
-  /* One accent. The old names are kept so components didn't need renaming. */
-  --color-primary: #f2a33a;
-  --color-primary-soft: #f6bd6c;
-  --color-accent: #f2a33a;
-  --color-violet: #c4843f;
+  --color-primary: #915eff;
+  --color-primary-soft: #b794ff;
+  --color-accent: #915eff;
+  --color-violet: #804dee;
 
-  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  --shadow-glow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 10px 30px -12px rgb(0 0 0 / 0.6);
-  --shadow-glow-cyan: 0 10px 30px -12px rgb(0 0 0 / 0.6);
+  --breakpoint-xs: 450px;
+
+  --shadow-glow: 0px 35px 120px -15px #211e35;
+  --shadow-glow-cyan: 0px 35px 120px -15px #211e35;
 }
 
 @layer base {
   html {
     background: var(--color-bg);
     color-scheme: dark;
-    /* Instrument Serif has a single weight; never fake a bold version of it */
-    font-synthesis-weight: none;
   }
 
   body {
@@ -45,7 +44,7 @@
   }
 
   ::selection {
-    background: rgb(242 163 58 / 0.3);
+    background: rgb(145 94 255 / 0.4);
     color: var(--color-ink);
   }
 
@@ -57,23 +56,36 @@
 }
 
 @layer components {
-  /* The emphasised words in headings: serif italic in the accent colour */
-  .accent-italic {
+  /* The emphasised words in headings */
+  .accent-text {
     color: var(--color-accent);
-    font-family: var(--font-display);
-    font-style: italic;
+  }
+
+  /* Purple-to-transparent bar beside the hero heading (reference: .violet-gradient) */
+  .violet-gradient {
+    background: linear-gradient(180deg, #804dee 0%, rgb(60 51 80 / 0) 100%);
+  }
+
+  /* Card with the reference's green-to-pink gradient border */
+  .card-gradient {
+    border: 1px solid transparent;
+    border-radius: 20px;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      linear-gradient(90.13deg, #00cea8 1.9%, #bf61ff 97.5%) border-box;
+    box-shadow: var(--shadow-glow);
   }
 
   /* Flat card (no backdrop blur: it's expensive on phones) */
   .card {
     background: var(--color-surface);
     border: 1px solid var(--color-line);
-    border-radius: 1rem;
+    border-radius: 20px;
     transition: border-color 0.3s, transform 0.3s, background 0.3s;
   }
   .card-hover:hover {
     border-color: var(--color-line-strong);
-    background: #1f1d1b;
+    background: #1a1438;
     transform: translateY(-2px);
   }
 
@@ -90,12 +102,17 @@
     line-height: 1.4;
   }
 
+  /* Small label above section titles (reference: sectionSubText) */
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-muted);
+  }
+  @media (min-width: 640px) {
+    .eyebrow {
+      font-size: 1.05rem;
+    }
   }
 
   .btn {
@@ -113,11 +130,12 @@
     transform: translateY(-1px);
   }
   .btn-primary {
-    background: var(--color-accent);
-    color: #121110;
+    background: #804dee;
+    color: #fff;
+    box-shadow: 0 10px 30px -10px rgb(128 77 238 / 0.6);
   }
   .btn-primary:hover {
-    background: var(--color-primary-soft);
+    background: #915eff;
   }
   .btn-ghost {
     border: 1px solid var(--color-line-strong);
@@ -139,7 +157,7 @@
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgb(242 163 58 / 0.06), transparent 60%);
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgb(145 94 255 / 0.1), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s;
     pointer-events: none;
@@ -163,7 +181,7 @@
   .timeline-dot.is-active {
     background: var(--color-accent);
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 4px rgb(242 163 58 / 0.15);
+    box-shadow: 0 0 0 4px rgb(145 94 255 / 0.2);
   }
 
   /* Skill-network connectors draw themselves in (pathLength = 1) */
@@ -199,6 +217,16 @@
   }
 }
 
+/* Hero scroll indicator: the dot travels down the mouse outline */
+.scroll-dot {
+  animation: scroll-dot 1.5s ease-in-out infinite;
+}
+@keyframes scroll-dot {
+  50% {
+    transform: translateY(24px);
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);
@@ -220,7 +248,7 @@
   --tw-prose-quotes: var(--color-ink);
   --tw-prose-quote-borders: var(--color-accent);
   --tw-prose-captions: var(--color-faint);
-  --tw-prose-code: #f6bd6c;
+  --tw-prose-code: #c4a7ff;
   --tw-prose-pre-code: #e6edf3;
   --tw-prose-pre-bg: transparent;
   --tw-prose-th-borders: var(--color-line-strong);
@@ -246,7 +274,7 @@
 }
 .article a:not(.heading-anchor) {
   text-underline-offset: 3px;
-  text-decoration-color: rgb(242 163 58 / 0.4);
+  text-decoration-color: rgb(145 94 255 / 0.5);
   transition: color 0.2s, text-decoration-color 0.2s;
 }
 .article a:not(.heading-anchor):hover {
@@ -257,7 +285,7 @@
 .article :not(pre) > code {
   padding: 0.15em 0.4em;
   border-radius: 0.375rem;
-  background: rgb(242 163 58 / 0.08);
+  background: rgb(145 94 255 / 0.12);
   border: 1px solid var(--color-line);
   font-weight: 500;
   font-size: 0.875em;
@@ -273,7 +301,7 @@
 .article pre {
   border: 1px solid var(--color-line);
   border-radius: 0.875rem;
-  background: #161513;
+  background: #0c0a20;
   padding: 1.1em 1.25em;
   font-size: 0.85em;
   line-height: 1.7;
@@ -283,7 +311,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .marquee-track,
+  .scroll-dot {
     animation: none;
   }
 

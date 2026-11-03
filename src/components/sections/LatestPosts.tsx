@@ -11,16 +11,11 @@ export default async function LatestPosts() {
 
   return (
     <section id="writing" className="relative scroll-mt-16 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-6 sm:px-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
-            index="06"
-            eyebrow="Writing"
-            title={
-              <>
-                Notes from <span className="accent-italic">the build.</span>
-              </>
-            }
+            eyebrow="Notes from the build"
+            title="Blog."
             intro="How things actually got built: the bugs, the trade-offs and the numbers."
           />
           <Reveal className="mb-12 sm:mb-16">

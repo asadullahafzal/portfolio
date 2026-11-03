@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="15" fill="#1b1a18"/>
+  <rect width="64" height="64" rx="15" fill="#804dee"/>
   <!-- "AA" monogram: two A's sharing a foot, drawn as strokes so no font is needed -->
-  <g fill="none" stroke="#f2a33a" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
     <path d="M8 47 L20 17 L32 47 L44 17 L56 47" stroke-width="6"/>
     <path d="M13.5 37 H26.5 M37.5 37 H50.5" stroke-width="5"/>
   </g>

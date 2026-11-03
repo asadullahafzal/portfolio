@@ -135,8 +135,8 @@ export default function SkillsNetwork({ groups }: { groups: SkillGroup[] }) {
             >
               <Spotlight
                 as="article"
-                className={`card card-hover h-full p-6 ${
-                  core ? "flex flex-col justify-center !border-primary/40 shadow-glow sm:p-8" : ""
+                className={`card-gradient h-full p-6 transition-transform duration-300 hover:-translate-y-1 ${
+                  core ? "flex flex-col justify-center sm:p-8" : ""
                 }`}
               >
                 <div className="mb-5 flex items-center justify-between gap-3">

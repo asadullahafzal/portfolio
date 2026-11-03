@@ -76,7 +76,7 @@ function GeneratorIllustration() {
       <p className="relative font-mono text-[11px] uppercase tracking-widest text-accent">Pun Generator</p>
       <div className="relative mt-3 flex gap-2">
         <span className="flex-1 rounded-xl border border-line-strong bg-bg/80 px-4 py-3 text-sm text-ink">pizza</span>
-        <span className="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-bg">Generate</span>
+        <span className="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white">Generate</span>
       </div>
       <ul className="relative mt-4 space-y-2 text-xs text-ink sm:text-sm">
         {["You've got a pizza my heart.", "I'm on a pizza diet. I just eat it on the side.", "Slice to meet you!"].map((p) => (

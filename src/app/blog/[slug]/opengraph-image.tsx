@@ -29,16 +29,16 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "64px 72px",
-          background: "#121110",
+          background: "#050816",
           backgroundImage:
-            "radial-gradient(circle at 15% 10%, rgba(242,163,58,0.14), transparent 45%), radial-gradient(circle at 90% 100%, rgba(242,163,58,0.08), transparent 45%)",
-          color: "#edebe4",
+            "radial-gradient(circle at 15% 10%, rgba(145,94,255,0.22), transparent 45%), radial-gradient(circle at 90% 100%, rgba(0,206,168,0.10), transparent 45%)",
+          color: "#f3f3f3",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse renders plain <img> */}
           <img src={iconSrc} width={56} height={56} alt="" />
-          <span style={{ fontSize: 26, color: "#a39f94" }}>asadullahafzal.com/blog</span>
+          <span style={{ fontSize: 26, color: "#aaa6c3" }}>asadullahafzal.com/blog</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -48,7 +48,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               {post.tags.slice(0, 4).map((t) => (
                 <span
                   key={t}
-                  style={{ fontSize: 22, color: "#f6bd6c", border: "1px solid rgba(237,235,228,0.25)", borderRadius: 999, padding: "6px 18px" }}
+                  style={{ fontSize: 22, color: "#c4a7ff", border: "1px solid rgba(145,94,255,0.4)", borderRadius: 999, padding: "6px 18px" }}
                 >
                   {t}
                 </span>
@@ -57,7 +57,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           )}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#a39f94" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#aaa6c3" }}>
           <span>{profile.name}</span>
           {post && (
             <span>

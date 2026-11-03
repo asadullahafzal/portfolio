@@ -12,15 +12,10 @@ const hostname = (url: string) => new URL(url).hostname;
 export default function Projects() {
   return (
     <section id="projects" className="relative scroll-mt-16 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-6 sm:px-16">
         <SectionHeading
-          index="04"
-          eyebrow="Projects"
-          title={
-            <>
-              Live products, <span className="accent-italic">real users.</span>
-            </>
-          }
+          eyebrow="My work"
+          title="Projects."
           intro="These aren't class assignments. They're live products built for publishers, creators and readers worldwide."
         />
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, type RefObject } from "react";
+import { Suspense, useEffect, useState, type RefObject } from "react";
 import { Canvas } from "@react-three/fiber";
-import DeskScene from "./DeskScene";
+import DeskModel from "./DeskModel";
 
 type Props = {
   /** Element that receives pointer events (the hero section), so the text above stays clickable */
@@ -10,6 +10,11 @@ type Props = {
   progress: RefObject<number>;
   onReady?: () => void;
 };
+
+function Ready({ onReady }: { onReady?: () => void }) {
+  useEffect(() => onReady?.(), [onReady]);
+  return null;
+}
 
 // Client-only: loaded with next/dynamic after the page is interactive.
 export default function HeroScene({ eventSource, progress, onReady }: Props) {
@@ -27,16 +32,20 @@ export default function HeroScene({ eventSource, progress, onReady }: Props) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0.95, 4], fov: 32, near: 0.1, far: 50 }}
+      camera={{ position: [20, 3, 5], fov: 25, near: 0.1, far: 200 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       eventSource={eventSource as RefObject<HTMLElement>}
       eventPrefix="client"
       frameloop={reducedMotion ? "demand" : visible ? "always" : "never"}
-      onCreated={() => onReady?.()}
+      onCreated={({ camera }) => camera.lookAt(0, 0, 0)}
       style={{ pointerEvents: "none" }}
     >
-      <DeskScene progress={progress} reducedMotion={reducedMotion} />
+      {/* onReady fires once the model has loaded, so the poster stays up until then */}
+      <Suspense fallback={null}>
+        <DeskModel progress={progress} reducedMotion={reducedMotion} />
+        <Ready onReady={onReady} />
+      </Suspense>
     </Canvas>
   );
 }

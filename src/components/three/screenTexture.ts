@@ -3,8 +3,6 @@ import * as THREE from "three";
 // The curved monitor's screen: a code editor drawn on a <canvas>, used as a texture.
 // `typeTo(n)` reveals the first n characters of the code, so the editor appears to type.
 
-const W = 1280;
-const H = 560;
 
 const CODE = `// src/data/profile.ts
 export const profile = {
@@ -18,18 +16,18 @@ export const profile = {
 `;
 
 const C = {
-  bg: "#1a1816",
-  chrome: "#141311",
-  sidebar: "#171513",
-  line: "#2a2724",
-  text: "#e6e3db",
-  dim: "#7c776d",
-  comment: "#6f6a60",
-  keyword: "#f2a33a",
-  string: "#b8c98d",
-  prop: "#e6e3db",
-  punct: "#8f8a7e",
-  accent: "#f2a33a",
+  bg: "#0d0b1f",
+  chrome: "#090718",
+  sidebar: "#0b091c",
+  line: "#1d1838",
+  text: "#e9e6ff",
+  dim: "#6f6a96",
+  comment: "#5f5a84",
+  keyword: "#c084fc",
+  string: "#34d3b0",
+  prop: "#93c5fd",
+  punct: "#8a86a8",
+  accent: "#915eff",
 };
 
 const FONT = '26px ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace';
@@ -46,7 +44,16 @@ function tokens(line: string): { text: string; color: string }[] {
   return out;
 }
 
-export function createScreen() {
+type ScreenOptions = {
+  /** Flip horizontally (for meshes with mirrored UVs) */
+  mirror?: boolean;
+  /** glTF models expect textures with flipY = false */
+  flipY?: boolean;
+  width?: number;
+  height?: number;
+};
+
+export function createScreen({ mirror = false, flipY = true, width: W = 1280, height: H = 560 }: ScreenOptions = {}) {
   const canvas = document.createElement("canvas");
   canvas.width = W;
   canvas.height = H;
@@ -54,10 +61,13 @@ export function createScreen() {
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;
-  // The screen is the inside of a curved surface; mirror so text reads correctly
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.repeat.x = -1;
-  texture.offset.x = 1;
+  texture.flipY = flipY;
+  // Some screen meshes have mirrored UVs; flip so the text reads correctly
+  if (mirror) {
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.repeat.x = -1;
+    texture.offset.x = 1;
+  }
 
   const files = ["app", "components", "data", "  profile.ts", "lib", "public"];
 
@@ -88,7 +98,7 @@ export function createScreen() {
     files.forEach((f, i) => {
       const active = f.trim() === "profile.ts";
       if (active) {
-        ctx.fillStyle = "rgba(242,163,58,0.12)";
+        ctx.fillStyle = "rgba(145,94,255,0.18)";
         ctx.fillRect(0, 78 + i * 36, 180, 32);
       }
       ctx.fillStyle = active ? C.text : C.dim;
@@ -108,7 +118,7 @@ export function createScreen() {
     ctx.fillStyle = C.accent;
     ctx.fillRect(0, H - 26, W, 26);
     ctx.font = '14px ui-sans-serif, system-ui, sans-serif';
-    ctx.fillStyle = "#1a1816";
+    ctx.fillStyle = "#ffffff";
     ctx.fillText("main  ·  TypeScript  ·  Next.js 16", 16, H - 8);
     ctx.textAlign = "right";
     ctx.fillText("build passing", W - 16, H - 8);
@@ -142,6 +152,26 @@ export function createScreen() {
         ctx.fillRect(x + 3, y - 24, 13, 30);
       }
     });
+    // Terminal panel under the editor when the screen has room for it
+    if (H > 620) {
+      const top = H - 26 - 150;
+      ctx.fillStyle = C.chrome;
+      ctx.fillRect(180, top, W - 180, 150);
+      ctx.fillStyle = C.line;
+      ctx.fillRect(180, top, W - 180, 2);
+      ctx.font = '17px ui-monospace, Menlo, Consolas, monospace';
+      ctx.fillStyle = C.dim;
+      ctx.fillText("TERMINAL", 200, top + 30);
+      const lines = [
+        ["$ npm run build", C.text],
+        ["Compiled successfully. Static pages generated", C.string],
+        ["$ bash deploy/deploy.sh  ->  Live on asadullahafzal.com", C.text],
+      ];
+      lines.forEach(([t, c], i) => {
+        ctx.fillStyle = c;
+        ctx.fillText(t, 200, top + 66 + i * 30);
+      });
+    }
     texture.needsUpdate = true;
     shown = count;
   }
