@@ -1,8 +1,7 @@
-import { answer } from "./localEngine";
 import type { BotReply, ChatMessage } from "./types";
 
 export type { BotReply, ChatLink, ChatMessage } from "./types";
-export { starterSuggestions } from "./knowledge";
+export { starterSuggestions } from "./suggestions";
 
 /**
  * Single entry point the chat widget calls.
@@ -13,6 +12,8 @@ export { starterSuggestions } from "./knowledge";
  * that returns the same `BotReply` shape. The widget doesn't need to change.
  */
 export async function getReply(question: string, history: ChatMessage[]): Promise<BotReply> {
+  // Loaded on the first question, so the engine and knowledge base aren't part of every page load
+  const { answer } = await import("./localEngine");
   const lastBot = [...history].reverse().find((m) => m.role === "bot");
   return answer(question, lastBot?.role === "bot" ? lastBot.topic : undefined);
 }

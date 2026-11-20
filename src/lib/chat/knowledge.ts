@@ -10,6 +10,7 @@ import {
   type Project,
 } from "@/data/profile";
 import type { BotReply, ChatLink } from "./types";
+import { starterSuggestions } from "./suggestions";
 
 // Everything the assistant says is built from src/data/profile.ts, so the
 // answers always match the site. The assistant refers to Asadullah by name.
@@ -33,12 +34,7 @@ export const links = {
   contact: { label: "Contact", href: "/#contact" },
 } satisfies Record<string, ChatLink>;
 
-export const starterSuggestions = [
-  `What has ${NAME} built?`,
-  "What are the main skills?",
-  "Tell me about the AI teaching",
-  "Is Asadullah available for hire?",
-];
+export { starterSuggestions };
 
 // ---------------------------------------------------------------------------
 // Intents: keyword triggers + a reply builder

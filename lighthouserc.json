@@ -2,7 +2,11 @@
   "ci": {
     "collect": {
       "numberOfRuns": 3,
-      "settings": { "formFactor": "mobile", "screenEmulation": { "mobile": true, "width": 412, "height": 823, "deviceScaleFactor": 1.75 } }
+      "settings": {
+        "formFactor": "mobile",
+        "screenEmulation": { "mobile": true, "width": 412, "height": 823, "deviceScaleFactor": 1.75 },
+        "throttlingMethod": "devtools"
+      }
     },
     "assert": {
       "assertions": {
