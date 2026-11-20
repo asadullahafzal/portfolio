@@ -88,7 +88,7 @@ export const intents: Intent[] = [
     keywords: ["project", "projects", "built", "build", "portfolio", "made", "created", "products", "apps", "websites", "work", "examples"],
     phrases: ["what has", "what did", "show me"],
     reply: () => ({
-      text: `${NAME}'s featured projects are all live products:\n\n${bullet(
+      text: `${NAME}'s featured projects:\n\n${bullet(
         featuredProjects.map((p) => `${p.name}: ${p.tagline}`),
       )}\n\nThere are also ${labProjects.length} AI projects in the AI Lab and ${moreBuilds.length} more builds on GitHub (C++, systems and data structures).`,
       links: [links.projects, links.github],

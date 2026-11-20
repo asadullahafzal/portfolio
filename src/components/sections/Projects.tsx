@@ -16,7 +16,7 @@ export default function Projects() {
         <SectionHeading
           eyebrow="My work"
           title="Projects."
-          intro="These aren't class assignments. They're live products built for publishers, creators and readers worldwide."
+          intro="Live products built for publishers, creators and readers worldwide, plus CallSense, my final year project in real-time AI."
         />
 
         <div className="space-y-8">

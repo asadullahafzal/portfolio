@@ -28,6 +28,8 @@ export default function ProjectPreview({ project, priority = false }: { project:
         />
       ) : project.preview === "queries" ? (
         <QueriesIllustration />
+      ) : project.preview === "coaching" ? (
+        <CoachingIllustration />
       ) : (
         <GeneratorIllustration />
       )}
@@ -63,6 +65,33 @@ function QueriesIllustration() {
             <span className="hidden shrink-0 font-mono text-[10px] text-accent sm:block">{r.score}</span>
           </li>
         ))}
+      </ul>
+    </div>
+  );
+}
+
+// CallSense: a live call transcript with the customer's cue and a coaching suggestion
+function CoachingIllustration() {
+  return (
+    <div aria-label="Illustration of CallSense coaching an agent during a live call" role="img" className="relative flex aspect-[16/10] flex-col justify-center p-5 sm:p-7">
+      <GridBackdrop />
+      <div className="relative flex items-center gap-2 rounded-xl border border-line-strong bg-bg/80 px-4 py-3">
+        <span className="size-2 animate-pulse rounded-full bg-accent" />
+        <span className="font-mono text-xs text-muted sm:text-sm">live call · 03:42</span>
+      </div>
+      <ul className="relative mt-4 space-y-2 text-xs sm:text-sm">
+        <li className="flex items-center gap-3 rounded-lg border border-line bg-surface/90 px-3 py-2.5">
+          <span className="shrink-0 rounded bg-primary/15 px-1.5 py-0.5 font-mono text-[10px] text-primary-soft">Customer</span>
+          <span className="flex-1 truncate text-ink">It sounds good, but it&apos;s more than we budgeted.</span>
+        </li>
+        <li className="flex flex-wrap gap-2">
+          <span className="rounded bg-surface/90 px-2 py-1 font-mono text-[10px] text-accent">Hesitant</span>
+          <span className="rounded bg-surface/90 px-2 py-1 font-mono text-[10px] text-accent">Objection: price</span>
+        </li>
+        <li className="rounded-lg border border-line-strong bg-bg/80 px-3 py-2.5 text-ink">
+          <span className="mb-1 block font-mono text-[10px] uppercase tracking-widest text-primary-soft">Suggestion</span>
+          Ask what they compare it to, then show the yearly saving from the playbook.
+        </li>
       </ul>
     </div>
   );

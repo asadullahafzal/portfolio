@@ -143,12 +143,15 @@ export type Project = {
   /** Site temporarily down: hides the "Visit" link but keeps the project */
   offline?: boolean;
   /** Which designed preview to show when there's no screenshot */
-  preview?: "queries" | "generator";
+  preview?: "queries" | "generator" | "coaching";
   /** Long-form content for the /projects/[slug] case-study page */
   caseStudy?: {
     challenge: string;
     approach: string[];
     outcome?: string;
+    /** Section titles for projects that aren't a finished solo build (defaults: "What I built", "The outcome") */
+    approachTitle?: string;
+    outcomeTitle?: string;
   };
 };
 
@@ -189,6 +192,39 @@ export const featuredProjects: Project[] = [
       ],
       outcome:
         "CPC Point now serves 970+ publishers across 60+ countries, delivering 40M+ verified impressions a month and $1.0M+ paid out to publishers.",
+    },
+  },
+  {
+    slug: "callsense",
+    name: "CallSense",
+    tagline: "Real-time AI coaching for sales calls",
+    role: "Final year project · team of 3",
+    description:
+      "A web app that listens to both sides of a live sales call, reads the customer's emotion and objections, and suggests what the agent could say next, grounded in the company's own sales playbook. Design and SRS defended; build in progress.",
+    highlights: [
+      "Two-tier AI: a fast classifier on every customer turn, an LLM only when a key moment is detected",
+      "Six emotion classes plus price, timing, competitor, authority and need objections",
+      "Suggestions grounded in the company's playbook, with a guardrail against invented prices or claims",
+      "No install: captures the web dialer tab and the agent's mic in Chrome or Edge",
+      "Post-call coaching card, built-in CRM and a manager dashboard",
+    ],
+    tech: ["XLM-RoBERTa", "Mistral 7B + LoRA", "RAG / pgvector", "FastAPI", "Next.js"],
+    preview: "coaching",
+    caseStudy: {
+      challenge:
+        "On a sales call an agent has a few seconds to answer a doubt, a price objection or a change in the customer's mood. New agents miss these moments, and managers can't listen to every call. Real-time coaching tools exist, but they're built and priced for large contact centres, not the small call centres and BPOs that need them most.",
+      approachTitle: "How it works",
+      approach: [
+        "Capture: the agent shares their web dialer's browser tab (customer audio) and microphone (agent audio) once per shift, so each speaker arrives on a separate channel and no diarization model is needed.",
+        "Transcribe: Deepgram streams live transcripts of both channels, and its speech and silence signal splits a shift into individual calls.",
+        "Tier 1, every customer turn: a fine-tuned XLM-RoBERTa labels emotion, objection type, buying signal and call stage, with a target of 100 to 200 ms.",
+        "Retrieve: multilingual-E5 embeddings in PostgreSQL with pgvector fetch playbook facts, approved rebuttals and similar past conversations.",
+        "Tier 2, only when Tier 1 triggers: a LoRA-tuned Mistral 7B served on vLLM writes the suggestion and its reasoning, and a guardrail blocks any fact not found in the playbook.",
+        "After the call: a coaching card within 30 seconds, a chatbot over the agent's own calls, automatic CRM logging and a suggested lead tier for the manager to confirm.",
+      ],
+      outcomeTitle: "Where it stands",
+      outcome:
+        "The proposal, design and SRS (21 use cases with full UML and data-flow diagrams) were defended in October 2026. The capture, transcription and CRM are being built now, and the AI models follow by May 2027, measured against set targets: under 2 s to a full suggestion at p95, and macro-F1 of at least 0.75 for emotion. Built at FAST-NUCES with Talha Mehmood and Ali Hassan, supervised by Dr. Muhammad Fayyaz. Next: extending it to code-switched Urdu-English calls, where almost no labelled data exists.",
     },
   },
   {

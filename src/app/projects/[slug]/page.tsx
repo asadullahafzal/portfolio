@@ -197,7 +197,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             {project.caseStudy && (
               <section>
                 <Reveal>
-                  <p className="eyebrow mb-3">02 / What I built</p>
+                  <p className="eyebrow mb-3">02 / {project.caseStudy.approachTitle ?? "What I built"}</p>
                 </Reveal>
                 <Reveal as="ol" stagger className="space-y-3">
                   {project.caseStudy.approach.map((a, i) => (
@@ -227,7 +227,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             {project.caseStudy?.outcome && (
               <section>
                 <Reveal>
-                  <p className="eyebrow mb-3">04 / The outcome</p>
+                  <p className="eyebrow mb-3">04 / {project.caseStudy.outcomeTitle ?? "The outcome"}</p>
                 </Reveal>
                 <Reveal delay={0.1} className="card relative overflow-hidden p-6 sm:p-8">
                   <p className="relative text-lg leading-relaxed text-ink">{project.caseStudy.outcome}</p>
