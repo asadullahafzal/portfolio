@@ -137,7 +137,8 @@ export type Project = {
   highlights: string[];
   tech: string[];
   metrics?: { value: string; label: string }[];
-  /** Screenshot of the live site; projects without one get a designed preview */
+  /** Screenshot of the live site (small WebP; a same-named .png is kept for share previews).
+   *  Projects without one get a designed preview. */
   image?: string;
   /** Site temporarily down: hides the "Visit" link but keeps the project */
   offline?: boolean;
@@ -174,7 +175,7 @@ export const featuredProjects: Project[] = [
       { value: "$1.0M+", label: "paid to publishers" },
       { value: "~40ms", label: "per auction" },
     ],
-    image: "/images/projects/cpc-point.png",
+    image: "/images/projects/cpc-point.webp",
     caseStudy: {
       challenge:
         "Publishers want an ad network that pays fairly and shows exactly what they earn. Advertisers want real audiences and to pay only for genuine clicks. Serving both sides means picking and serving the right ad for every impression in real time, without slowing down the publisher's site.",
@@ -205,7 +206,7 @@ export const featuredProjects: Project[] = [
       "Own site architecture, SEO structure and technical performance",
     ],
     tech: ["Next.js", "React", "Technical SEO", "Core Web Vitals"],
-    image: "/images/projects/the-dollar-tech.png",
+    image: "/images/projects/the-dollar-tech.webp",
     caseStudy: {
       challenge:
         "Bloggers and creators juggle a dozen different tools for everyday jobs like keyword research, meta tags and revenue estimates, and most of them are paid or locked behind a sign-up.",

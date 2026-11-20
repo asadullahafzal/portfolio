@@ -21,6 +21,8 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   const project = findProject((await params).slug);
   if (!project) return {};
   const title = `${project.name}: ${project.tagline}`;
+  // Share previews use the PNG (not every platform accepts WebP)
+  const shareImage = project.image ? project.image.replace(/\.webp$/, ".png") : "/opengraph-image";
   return {
     title,
     description: project.description,
@@ -31,9 +33,9 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
       title,
       description: project.description,
       // Projects without a screenshot fall back to the site-wide share card
-      images: [{ url: project.image ?? "/opengraph-image", alt: project.name }],
+      images: [{ url: shareImage, alt: project.name }],
     },
-    twitter: { card: "summary_large_image", title, description: project.description, images: [project.image ?? "/opengraph-image"] },
+    twitter: { card: "summary_large_image", title, description: project.description, images: [shareImage] },
   };
 }
 
@@ -55,7 +57,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
       headline: project.tagline,
       description: project.description,
       url: pageUrl,
-      ...(project.image && { image: `${site.url}${project.image}` }),
+      ...(project.image && { image: `${site.url}${project.image.replace(/\.webp$/, ".png")}` }),
       ...(live && { sameAs: project.url }),
       keywords: project.tech.join(", "),
       author: { "@type": "Person", name: profile.name, url: site.url },

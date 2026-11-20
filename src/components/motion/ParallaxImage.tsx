@@ -32,7 +32,8 @@ export default function ParallaxImage({ src, alt, sizes, className = "", priorit
 
   return (
     <div ref={frame} className={`relative overflow-hidden ${className}`}>
-      <Image src={src} alt={alt} fill sizes={sizes} preload={priority} className="scale-[1.14] object-cover object-top" />
+      {/* Images are pre-sized WebP, so skip the on-the-fly optimizer (cold after every deploy) */}
+      <Image src={src} alt={alt} fill sizes={sizes} preload={priority} unoptimized className="scale-[1.14] object-cover object-top" />
     </div>
   );
 }

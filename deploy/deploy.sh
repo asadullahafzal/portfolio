@@ -12,6 +12,7 @@ SRC=/home/portfolio/portfolio
 LIVE=/home/portfolio/app
 STAGE=/home/portfolio/app.staging
 PREV=/home/portfolio/app.previous
+CACHE=/home/portfolio/next-cache
 
 # Everything lives in main(), which bash reads fully before running, so
 # `git pull` can safely update this very file mid-deploy.
@@ -33,7 +34,12 @@ main() {
   cp -a "$SRC/.next/standalone" "$STAGE"
   cp -a "$SRC/.next/static" "$STAGE/.next/static"
   cp -a "$SRC/public" "$STAGE/public"
-  chown -R "$APP_USER:$APP_USER" "$STAGE"
+  # Keep Next's cache (optimised images etc.) across releases, so the first visitors
+  # after a deploy don't wait for everything to be re-optimised
+  mkdir -p "$CACHE"
+  rm -rf "$STAGE/.next/cache"
+  ln -s "$CACHE" "$STAGE/.next/cache"
+  chown -R "$APP_USER:$APP_USER" "$STAGE" "$CACHE"
 
   echo "==> Switching to the new release"
   rm -rf "$PREV"
